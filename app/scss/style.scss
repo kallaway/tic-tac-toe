@@ -1,0 +1,13 @@
+$bg-color: #D6DBB2;
+$grid-color: #422040;
+
+body {
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	background-color: $bg-color;
+}
+
+p {
+  color: red;
+}

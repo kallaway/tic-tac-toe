@@ -1,0 +1,8 @@
+body {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background-color: #D6DBB2; }
+
+p {
+  color: red; }
