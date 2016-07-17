@@ -1,7 +1,9 @@
 "use strict";
 
 // TODO: Maybe make it possible to generate a grid
+// Should I use canvas?
 
+// could be TEMP
 let state = [
 	[-1, -1, -1],
 	[-1, -1, -1],
@@ -16,3 +18,34 @@ let state = [
 // 3. Computer makes a move
 // When someone wins, display feedback
 // Restart the game at step 2.
+
+let t3 = {
+	state: [
+		[-1, -1, -1],
+		[-1, -1, -1],
+		[-1, -1, -1]
+	],
+	isHumanTurn: true,
+	// game object?
+};
+
+function aiMove() {
+	// look at the state.
+	// make decisions
+}
+
+
+$(document).ready() {
+	draw();
+
+
+	function draw() {
+		// decide whose turn is it?
+	}
+
+	function update() {
+		// update using the state.
+	}
+
+
+};
