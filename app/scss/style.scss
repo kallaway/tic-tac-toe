@@ -1,30 +1,69 @@
 $bg-color: #D6DBB2;
 $grid-color: #422040;
+$font-color-test: #fff;
+
 
 
 /******** BASE STYLES *******/
 body {
 	display: flex;
-	align-items: flex-end;
+	align-items: center;
 	justify-content: center;
+	flex-direction: column;
 	background-color: $bg-color;
+	color: $font-color-test;
+	font-size: 3em;
+
+	-webkit-user-select: none;  /* Chrome all / Safari all */
+	-moz-user-select: none;     /* Firefox all */
+	-ms-user-select: none;      /* IE 10+ */
+	user-select: none;
+
 }
 
 p {
-  color: red;sdf
+  color: red;
 }
 
 /******* MAIN STYLES *******/
 
+.test-color-red {
+	background-color: red;
+	color: green;
+}
+
+#choose-side {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#grid {
+	cursor: pointer;
+}
+
 .cell {
-	width: 5%;
-	height: 5%;
+	// text-align: center;
+	width: 100px;
+	height: 100px;
 	background-color: $grid-color;
+	border: 1px solid $bg-color;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.sym-o,
+.sym-x {
+	display: none;
 }
 
 .row {
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 }
 
 /******* PSEUDO STYLES *******/

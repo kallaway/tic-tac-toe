@@ -1,8 +1,55 @@
+/******** BASE STYLES *******/
 body {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  background-color: #D6DBB2; }
+  flex-direction: column;
+  background-color: #D6DBB2;
+  color: #fff;
+  font-size: 3em;
+  -webkit-user-select: none;
+  /* Chrome all / Safari all */
+  -moz-user-select: none;
+  /* Firefox all */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none; }
 
 p {
   color: red; }
+
+/******* MAIN STYLES *******/
+.test-color-red {
+  background-color: red;
+  color: green; }
+
+#choose-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+#grid {
+  cursor: pointer; }
+
+.cell {
+  width: 100px;
+  height: 100px;
+  background-color: #422040;
+  border: 1px solid #D6DBB2;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.sym-o,
+.sym-x {
+  display: none; }
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center; }
+
+/******* PSEUDO STYLES *******/
+/******* MEDIA QUERIES *******/
