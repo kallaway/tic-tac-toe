@@ -82,9 +82,13 @@ $(document).ready(function() {
 		// 	currentClass = t3.aiSymbol == "x" ? '.fa-times' : '.fa-circle-o';
 		// }
 
+		function playOneTurn() {
+
+		}
+
 		$cells.on('click', function() {
 			let $cell = $(this).find(t3.humanClass);
-			$cell.show();
+
 			let row = $(this).data("row");
 			row = parseInt(row) - 1;
 			console.log("current row: " + row);
@@ -92,10 +96,17 @@ $(document).ready(function() {
 			let col = $(this).data("col");
 			col = parseInt(col) - 1;
 			console.log("current col: " + col);
+			if (state[row][col] != 0) {
+				console.log("Check of the cell was successful. Apparently, this cell was not affected by AI");
+				t3.state[row][col] = 1;
+				$cell.show();
+			}
 
-			t3.state[row][col] = 1;
-
-			findBestMove();
+			console.log("State before AI move");
+			printGridState();
+			findBestMove(); // rename this function
+			console.log("State after AI move");
+			printGridState();
 		});
 
 		// $cells.forEach(function(cell) {
@@ -103,6 +114,20 @@ $(document).ready(function() {
 		//
 		// 	});
 		// });
+	}
+
+	function printGridState() {
+		let stateString = "----------------\n| ";
+		for (var i = 0; i < t3.state.length; i++) {
+			for (var j = 0; j < t3.state[i].length; j++) {
+				stateString += t3.state[i][j] + " | ";
+			}
+			stateString += "\n|";
+		}
+		stateString += "----------------";
+
+		console.log("State:");
+		console.log(stateString);
 	}
 
 	function humanMove() {
@@ -122,12 +147,52 @@ $(document).ready(function() {
 		let st = t3.state;
 		let coords = [-1, -1];
 
-		if (st[1][1] != 1) {
+		// if the middle is still empty, fill it
+		if (st[1][1] != 1 && st[1][1] != 0) {
 			st[1][1] = 0;
 			coords = [1][1];
 			showMoveAI([1, 1]);
+			return;
 		}
 
+		let topCandidate = [-1, -1];
+
+		let hCounterAI = 0;
+		let hCounterHuman = 0;
+		let counterOpp = 0;
+		let currentRow = 0;
+
+		let emptyInRow = 0;
+
+		// horizontal check
+		for (var rowI = 0; rowI < st.length; rowI++) {
+			let line = st[rowI];
+			for (var i = 0; i < line.length; i++) {
+				if (line[i] == 0) {
+					hCounterAI++;
+				} else if (line[i] == 1) {
+					hCounterHuman++;
+				} else {
+
+				}
+
+			}
+			// After first loop, after one line
+			// if (rowI != 0 && i != 0) {
+				if (hCounterHuman == 0) {
+					topCandidate = [rowI, i];
+				} else if (hCounterAI == 1 && hCounterHuman == 0) {
+					topCandidate = [rowI, i];
+				} else if (hCounterAI == 2 && hCounterHuman == 0) {
+					topCandidate = [rowI, i];
+				}
+			// }
+
+		}
+
+		showMoveAI(topCandidate);
+		console.log("The top coordinate candidate is:");
+		console.log(topCandidate);
 
 
 	}

@@ -20,8 +20,7 @@ p {
 
 /******* MAIN STYLES *******/
 .test-color-red {
-  background-color: red;
-  color: green; }
+  color: black; }
 
 #choose-side {
   display: flex;
