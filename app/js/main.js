@@ -37,6 +37,9 @@ $(document).ready(function() {
 	let $choiceO = $('.choice-o');
 	let $cells = $('.cell');
 
+	let $chooseSide = $('#choose-side');
+	let $grid = $('#grid');
+
 	console.log("ChoiceX:");
 	console.log($choiceX);
 	console.log("ChoiceO:");
@@ -52,6 +55,9 @@ $(document).ready(function() {
 			t3.aiClass = '.fa-times';
 			// close the
 			activateGrid();
+
+			$chooseSide.hide();
+			$grid.show();
 		});
 
 		$choiceX.on('click', function() {
@@ -61,6 +67,9 @@ $(document).ready(function() {
 			t3.humanClass = '.fa-times';
 			t3.aiClass = '.fa-circle-o';
 			activateGrid();
+
+			$chooseSide.hide();
+			$grid.show();
 		});
 		// what symbol do you want to use? X or 0?
 
@@ -161,7 +170,6 @@ $(document).ready(function() {
 		let hCounterHuman = 0;
 		let counterOpp = 0;
 		let currentRow = 0;
-
 		let emptyInRow = 0;
 
 		// horizontal check
@@ -193,7 +201,6 @@ $(document).ready(function() {
 		showMoveAI(topCandidate);
 		console.log("The top coordinate candidate is:");
 		console.log(topCandidate);
-
 
 	}
 

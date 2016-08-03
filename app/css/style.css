@@ -29,7 +29,8 @@ p {
   align-items: center; }
 
 #grid {
-  cursor: pointer; }
+  cursor: pointer;
+  display: none; }
 
 .cell {
   width: 100px;
