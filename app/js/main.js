@@ -19,11 +19,15 @@ let state = [
 // When someone wins, display feedback
 // Restart the game at step 2.
 
+// Human Code Representation: 1
+// AI Code Representation: 0
+// Empty Cell Representation: -1
+
 let t3 = {
 	state: [
 		[-1, -1, -1],
 		[-1, -1, -1],
-		[-1, -1, -1]
+		[0, -1, 0]
 	],
 	isHumanTurn: true,
 	aiSymbol: "1",
@@ -129,9 +133,18 @@ $(document).ready(function() {
 		let stateString = "----------------\n| ";
 		for (var i = 0; i < t3.state.length; i++) {
 			for (var j = 0; j < t3.state[i].length; j++) {
-				stateString += t3.state[i][j] + " | ";
+				var stateStringHelper;
+				if (t3.state[i][j] == -1) {
+					stateStringHelper = "*";
+				} else if (t3.state[i][j] === 1) {
+					stateStringHelper = "U"; // User
+				} else {
+					stateStringHelper = "C"; // Computer
+				}
+
+				stateString += stateStringHelper  + " | ";
 			}
-			stateString += "\n|";
+			stateString += "\n| ";
 		}
 		stateString += "----------------";
 
@@ -157,7 +170,7 @@ $(document).ready(function() {
 		let coords = [-1, -1];
 
 		// if the middle is still empty, fill it
-		if (st[1][1] != 1 && st[1][1] != 0) {
+		if (st[1][1] == -1) {
 			st[1][1] = 0;
 			coords = [1][1];
 			showMoveAI([1, 1]);
@@ -172,6 +185,37 @@ $(document).ready(function() {
 		let currentRow = 0;
 		let emptyInRow = 0;
 
+		let emptyRow;
+		let emptyCol;
+
+		// Find if there are rows where there is two computer symbols and none human's
+
+		// horizontal
+		console.log("AI potential move evaluation runs");
+		for (var rowI = 0; rowI < st.length; rowI++) {
+			let line = st[rowI];
+			for (var i = 0; i < line.length; i++) {
+				if (line[i] == 0) {
+					hCounterAI++;
+				} else if (line[i] == 1) {
+					hCounterHuman++;
+				} else {
+					emptyCol = i;
+					emptyRow = rowI;
+				}
+			}
+
+			if (hCounterAI == 2 && hCounterHuman == 0) {
+				topCandidate = [emptyRow, emptyCol];
+				console.log("Current test runs!");
+				coords = [emptyRow][emptyCol];
+				showMoveAI(coords);
+				return;
+			}
+
+
+		}
+
 		// horizontal check
 		for (var rowI = 0; rowI < st.length; rowI++) {
 			let line = st[rowI];
@@ -185,17 +229,16 @@ $(document).ready(function() {
 				}
 
 			}
-			// After first loop, after one line
-			// if (rowI != 0 && i != 0) {
-				if (hCounterHuman == 0) {
-					topCandidate = [rowI, i];
-				} else if (hCounterAI == 1 && hCounterHuman == 0) {
-					topCandidate = [rowI, i];
-				} else if (hCounterAI == 2 && hCounterHuman == 0) {
-					topCandidate = [rowI, i];
-				}
-			// }
 
+			// }
+		}
+
+		if (hCounterHuman == 0) {
+			topCandidate = [rowI, i];
+		} else if (hCounterAI == 1 && hCounterHuman == 0) {
+			topCandidate = [rowI, i];
+		} else if (hCounterAI == 2 && hCounterHuman == 0) {
+			topCandidate = [rowI, i];
 		}
 
 		showMoveAI(topCandidate);

@@ -1,7 +1,11 @@
-$bg-color: #D6DBB2;
-$grid-color: #422040;
-$font-color-test: #fff;
+$bg-color: #F1F8FD;
+$grid-color: #007CB9;
+$font-color-test: #F6C667;
+$ai-color: #005689;
 
+/*
+#F1F8FD#F6C667#007CB9#005689
+*/
 
 
 /******** BASE STYLES *******/
@@ -22,14 +26,14 @@ body {
 }
 
 p {
-  color: red;
+  color: $grid-color;
 }
 
 /******* MAIN STYLES *******/
 
 .test-color-red {
 	// background-color: white;
-	color: black;
+	color: $ai-color;
 }
 
 #choose-side {

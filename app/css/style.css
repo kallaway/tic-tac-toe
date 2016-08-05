@@ -1,11 +1,14 @@
+/*
+#F1F8FD#F6C667#007CB9#005689
+*/
 /******** BASE STYLES *******/
 body {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #D6DBB2;
-  color: #fff;
+  background-color: #F1F8FD;
+  color: #F6C667;
   font-size: 3em;
   -webkit-user-select: none;
   /* Chrome all / Safari all */
@@ -16,11 +19,11 @@ body {
   user-select: none; }
 
 p {
-  color: red; }
+  color: #007CB9; }
 
 /******* MAIN STYLES *******/
 .test-color-red {
-  color: black; }
+  color: #005689; }
 
 #choose-side {
   display: flex;
@@ -35,8 +38,8 @@ p {
 .cell {
   width: 100px;
   height: 100px;
-  background-color: #422040;
-  border: 1px solid #D6DBB2;
+  background-color: #007CB9;
+  border: 1px solid #F1F8FD;
   display: flex;
   justify-content: center;
   align-items: center; }
