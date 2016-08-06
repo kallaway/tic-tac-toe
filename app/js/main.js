@@ -7,7 +7,7 @@
 let state = [
 	[-1, -1, -1],
 	[-1, -1, -1],
-	[-1, -1, -1]
+	[0, -1, 0]
 ];
 
 
@@ -164,6 +164,8 @@ $(document).ready(function() {
 
 	}
 
+	
+
 	function findBestMove() {
 		// look at the board
 		let st = t3.state;
@@ -190,10 +192,24 @@ $(document).ready(function() {
 
 		// Find if there are rows where there is two computer symbols and none human's
 
+		let topResult = {
+			moveScore: 0,
+			col: -1,
+			row: -1
+		}
+
+		// Should it assign a score to a move?
+		let moveScore = 0;
+		// for each human
+
+		// create a priority Matrix? or just use the current one. Calculate the moveScore for each cell based on the cells around it?
+
 		// horizontal
 		console.log("AI potential move evaluation runs");
 		for (var rowI = 0; rowI < st.length; rowI++) {
 			let line = st[rowI];
+			hCounterAI = 0;
+			hCounterHuman = 0;
 			for (var i = 0; i < line.length; i++) {
 				if (line[i] == 0) {
 					hCounterAI++;
@@ -203,19 +219,24 @@ $(document).ready(function() {
 					emptyCol = i;
 					emptyRow = rowI;
 				}
+
+
+				if (hCounterAI == 2 && hCounterHuman == 0) {
+					topCandidate = [emptyRow, emptyCol];
+					console.log("Current test runs!");
+					console.log("When successful, emptyRow is " + emptyRow + " and emptyCol is " + emptyCol);
+					coords = [emptyRow][emptyCol];
+					showMoveAI(topCandidate);
+					return;
+				}
 			}
 
-			if (hCounterAI == 2 && hCounterHuman == 0) {
-				topCandidate = [emptyRow, emptyCol];
-				console.log("Current test runs!");
-				coords = [emptyRow][emptyCol];
-				showMoveAI(coords);
-				return;
-			}
+
 
 
 		}
 
+		/*
 		// horizontal check
 		for (var rowI = 0; rowI < st.length; rowI++) {
 			let line = st[rowI];
@@ -245,7 +266,10 @@ $(document).ready(function() {
 		console.log("The top coordinate candidate is:");
 		console.log(topCandidate);
 
+	*/
+
 	}
+
 
 	function showMoveAI(coords) {
 		setTimeout(function() {
