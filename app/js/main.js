@@ -23,11 +23,18 @@ let state = [
 // AI Code Representation: 0
 // Empty Cell Representation: -1
 
+// Maybe use a canvas
+
 let t3 = {
 	state: [
 		[-1, -1, -1],
 		[-1, -1, -1],
 		[0, -1, 0]
+	],
+	score: [
+		[0, 0, 0],
+		[0, 0, 0],
+		[0, 0, 0]
 	],
 	isHumanTurn: true,
 	aiSymbol: "1",
@@ -122,11 +129,6 @@ $(document).ready(function() {
 			printGridState();
 		});
 
-		// $cells.forEach(function(cell) {
-		// 	cell.on('click', function() {
-		//
-		// 	});
-		// });
 	}
 
 	function printGridState() {
@@ -164,11 +166,11 @@ $(document).ready(function() {
 
 	}
 
-	
 
 	function findBestMove() {
 		// look at the board
 		let st = t3.state;
+		let sc = t3.score;
 		let coords = [-1, -1];
 
 		// if the middle is still empty, fill it
@@ -190,8 +192,6 @@ $(document).ready(function() {
 		let emptyRow;
 		let emptyCol;
 
-		// Find if there are rows where there is two computer symbols and none human's
-
 		let topResult = {
 			moveScore: 0,
 			col: -1,
@@ -202,7 +202,56 @@ $(document).ready(function() {
 		let moveScore = 0;
 		// for each human
 
+
 		// create a priority Matrix? or just use the current one. Calculate the moveScore for each cell based on the cells around it?
+
+		for (var rowJ = 0; rowJ < sc.length; rowJ++) {
+			let line = st[rowJ]; // checking against the actual values in the matrix
+			for (var j = 0; j < line.length; j++) {
+
+				// maybe instead calculate what possibilities does a row have and then only look at whether the cell is open or not.
+
+				// checking the first column
+				if (j == 0) {
+					if (line[j+1] == 0) {
+						sc[line[j]] += 5;
+					}
+
+					if (line[j+2] == 0) {
+						sc[line[j]] += 5;
+					}
+				}
+
+				// checking the second column
+				if (j == 1) {
+					if (line[j-1] == 0) {
+						sc[line[j]] += 5;
+					}
+
+					if (line[j+1] == 0) {
+						sc[line[j]] += 5;
+					}
+				}
+
+				// checking the third column
+				if (j == 2) {
+					if (line[j-2] == 0) {
+						sc[line[j]] += 5;
+					}
+
+					if (line[j-1] == 0) {
+						sc[line[j]] += 5;
+					}
+				}
+
+
+			}
+
+
+		}
+
+		console.log("Now let's take a look into the scores of the cells");
+		console.log(t3.score);
 
 		// horizontal
 		console.log("AI potential move evaluation runs");

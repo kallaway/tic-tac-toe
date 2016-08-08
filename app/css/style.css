@@ -56,3 +56,10 @@ p {
 
 /******* PSEUDO STYLES *******/
 /******* MEDIA QUERIES *******/
+@media (min-width: 1000px) {
+  body {
+    background-color: green;
+    font-size: 6em; }
+  .cell {
+    width: 200px;
+    height: 200px; } }
