@@ -205,50 +205,67 @@ $(document).ready(function() {
 
 		// create a priority Matrix? or just use the current one. Calculate the moveScore for each cell based on the cells around it?
 
+
+		// HORIZONTAL CHECK
 		for (var rowJ = 0; rowJ < sc.length; rowJ++) {
 			let line = st[rowJ]; // checking against the actual values in the matrix
 			for (var j = 0; j < line.length; j++) {
 
 				// maybe instead calculate what possibilities does a row have and then only look at whether the cell is open or not.
 
+				console.log("HORZ: Currently, the ROW J is: " + rowJ + " and J is: " + j);
+				console.log("The value inside of the SCORE for the t3.score[rowJ][j] is " + t3.score[rowJ][j]);
+
 				// checking the first column
 				if (j == 0) {
 					if (line[j+1] == 0) {
-						sc[line[j]] += 5;
+						sc[line][j] += 5;
 					}
 
 					if (line[j+2] == 0) {
-						sc[line[j]] += 5;
+						sc[line][j] += 5;
 					}
 				}
 
 				// checking the second column
 				if (j == 1) {
 					if (line[j-1] == 0) {
-						sc[line[j]] += 5;
+						sc[line][j] += 5;
 					}
 
 					if (line[j+1] == 0) {
-						sc[line[j]] += 5;
+						sc[line][j] += 5;
 					}
 				}
 
 				// checking the third column
 				if (j == 2) {
 					if (line[j-2] == 0) {
-						sc[line[j]] += 5;
+						sc[line][j] += 5;
 					}
 
 					if (line[j-1] == 0) {
-						sc[line[j]] += 5;
+						sc[line][j] += 5;
+					}
+				}
+			}
+		}
+
+		// VERTICAL
+		for (var rowK = 0; rowK < sc.length; rowK++) {
+			let line = st[rowK]; // checking against the actual values in the matrix
+			for (var k = 0; k < line.length; k++) {
+
+
+				if (k == 0) {
+					if (line[rowK][k] == 0) {
+
 					}
 				}
 
-
 			}
-
-
 		}
+
 
 		console.log("Now let's take a look into the scores of the cells");
 		console.log(t3.score);
@@ -281,41 +298,7 @@ $(document).ready(function() {
 			}
 
 
-
-
 		}
-
-		/*
-		// horizontal check
-		for (var rowI = 0; rowI < st.length; rowI++) {
-			let line = st[rowI];
-			for (var i = 0; i < line.length; i++) {
-				if (line[i] == 0) {
-					hCounterAI++;
-				} else if (line[i] == 1) {
-					hCounterHuman++;
-				} else {
-
-				}
-
-			}
-
-			// }
-		}
-
-		if (hCounterHuman == 0) {
-			topCandidate = [rowI, i];
-		} else if (hCounterAI == 1 && hCounterHuman == 0) {
-			topCandidate = [rowI, i];
-		} else if (hCounterAI == 2 && hCounterHuman == 0) {
-			topCandidate = [rowI, i];
-		}
-
-		showMoveAI(topCandidate);
-		console.log("The top coordinate candidate is:");
-		console.log(topCandidate);
-
-	*/
 
 	}
 
@@ -330,10 +313,6 @@ $(document).ready(function() {
 			cell.find(t3.aiClass).fadeIn();
 			cell.addClass("test-color-red");
 		}, 500);
-	}
-
-	function chooseYourSymbol() {
-		// display choosing part.
 	}
 
 	function init() {
