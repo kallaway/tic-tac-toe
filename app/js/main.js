@@ -47,6 +47,7 @@ $(document).ready(function() {
 	let $choiceX = $('.choice-x');
 	let $choiceO = $('.choice-o');
 	let $cells = $('.cell');
+	let randomIndexes = [];
 
 	let $chooseSide = $('#choose-side');
 	let $grid = $('#grid');
@@ -124,7 +125,8 @@ $(document).ready(function() {
 
 			console.log("State before AI move");
 			printGridState();
-			findBestMove(); // rename this function
+			makeRandomMove();
+			// findBestMove(); // rename this function
 			console.log("State after AI move");
 			printGridState();
 		});
@@ -163,7 +165,26 @@ $(document).ready(function() {
 
 		// make decisions
 		let sym = t3.aiSymbol;
+	}
 
+	function makeRandomMove() {
+		randomIndexes = [];
+		for (var i = 0; i < t3.state.length; i++) {
+			for (var j = 0; j < t3.state[i].length; j++) {
+				if (t3.state[i][j] === 0) {
+					randomIndexes.push([i, j]);
+				}
+			}
+		}
+
+		let randomChoice = Math.floor(Math.random() * randomIndexes.length);
+		console.log("Randomly chosen cell in the t3 grid is: " + randomIndexes[randomChoice][0] + " and " + randomIndexes[randomChoice][1]);
+		// t3.state[randomIndexes[randomChoice][0]][randomIndexes[randomChoice[1]]]);
+
+		let randomCoords = [ randomIndexes[randomChoice][0], randomIndexes[randomChoice][1] ];
+		t3.state[ randomIndexes[randomChoice][0], randomIndexes[randomChoice][1] ] = 0;
+
+		showMoveAI(randomCoords);
 	}
 
 
