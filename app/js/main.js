@@ -171,7 +171,7 @@ $(document).ready(function() {
 		randomIndexes = [];
 		for (var i = 0; i < t3.state.length; i++) {
 			for (var j = 0; j < t3.state[i].length; j++) {
-				if (t3.state[i][j] === 0) {
+				if (t3.state[i][j] === -1) { // ?
 					randomIndexes.push([i, j]);
 				}
 			}
@@ -182,12 +182,12 @@ $(document).ready(function() {
 		// t3.state[randomIndexes[randomChoice][0]][randomIndexes[randomChoice[1]]]);
 
 		let randomCoords = [ randomIndexes[randomChoice][0], randomIndexes[randomChoice][1] ];
-		t3.state[ randomIndexes[randomChoice][0], randomIndexes[randomChoice][1] ] = 0;
+		t3.state[ randomIndexes[randomChoice][0] ][ randomIndexes[randomChoice][1] ] = 0;
 
 		showMoveAI(randomCoords);
 	}
 
-
+/*
 	function findBestMove() {
 		// look at the board
 		let st = t3.state;
@@ -223,9 +223,7 @@ $(document).ready(function() {
 		let moveScore = 0;
 		// for each human
 
-
 		// create a priority Matrix? or just use the current one. Calculate the moveScore for each cell based on the cells around it?
-
 
 		// HORIZONTAL CHECK
 		for (var rowJ = 0; rowJ < sc.length; rowJ++) {
@@ -317,12 +315,10 @@ $(document).ready(function() {
 					return;
 				}
 			}
-
-
 		}
 
 	}
-
+*/
 
 	function showMoveAI(coords) {
 		setTimeout(function() {
