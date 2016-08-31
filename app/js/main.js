@@ -7,7 +7,7 @@
 let state = [
 	[-1, -1, -1],
 	[-1, -1, -1],
-	[0, -1, 0]
+	[-1, -1, -1]
 ];
 
 
@@ -29,7 +29,7 @@ let t3 = {
 	state: [
 		[-1, -1, -1],
 		[-1, -1, -1],
-		[0, -1, 0]
+		[-1, -1, -1]
 	],
 	score: [
 		[0, 0, 0],
@@ -117,18 +117,19 @@ $(document).ready(function() {
 			let col = $(this).data("col");
 			col = parseInt(col) - 1;
 			console.log("current col: " + col);
-			if (state[row][col] != 0) {
+			if (t3.state[row][col] != 0) {
 				console.log("Check of the cell was successful. Apparently, this cell was not affected by AI");
 				t3.state[row][col] = 1;
 				$cell.show();
+
+				console.log("State before AI move");
+				printGridState();
+				makeRandomMove();
+				// findBestMove(); // rename this function
+				console.log("State after AI move");
+				printGridState();
 			}
 
-			console.log("State before AI move");
-			printGridState();
-			makeRandomMove();
-			// findBestMove(); // rename this function
-			console.log("State after AI move");
-			printGridState();
 		});
 
 	}
@@ -156,16 +157,15 @@ $(document).ready(function() {
 		console.log(stateString);
 	}
 
-	function humanMove() {
+	// function humanMove() {
+	//
+	// }
 
-	}
-
-	function aiMove() {
-		// look at the state.
-
-		// make decisions
-		let sym = t3.aiSymbol;
-	}
+	// function aiMove() {
+	// 	// look at the state.
+	// 	// make decisions
+	// 	let sym = t3.aiSymbol;
+	// }
 
 	function makeRandomMove() {
 		randomIndexes = [];
@@ -177,6 +177,12 @@ $(document).ready(function() {
 			}
 		}
 
+		if (!randomIndexes.length) {
+			// Do something when there are no more options to draw.
+		}
+		console.log("Random indexes left: ");
+		console.log(randomIndexes);
+
 		let randomChoice = Math.floor(Math.random() * randomIndexes.length);
 		console.log("Randomly chosen cell in the t3 grid is: " + randomIndexes[randomChoice][0] + " and " + randomIndexes[randomChoice][1]);
 		// t3.state[randomIndexes[randomChoice][0]][randomIndexes[randomChoice[1]]]);
@@ -185,6 +191,10 @@ $(document).ready(function() {
 		t3.state[ randomIndexes[randomChoice][0] ][ randomIndexes[randomChoice][1] ] = 0;
 
 		showMoveAI(randomCoords);
+	}
+
+	function checkGameStatus() {
+		// check whether there is any kind of win or tie on the grid.
 	}
 
 /*
@@ -325,7 +335,7 @@ $(document).ready(function() {
 			console.log("Show Move AI runs, with the following coordinates: ");
 			console.log(coords);
 			// find the right element
-			let cell = $('[data-row="' + (coords[0]+1) +  '"][data-col="' + (coords[0]+1) +  '"]'); // $("#grid").find('[data-row="' + (coords[0]+1) +  '"]'); // .find('[data-col="' + (coords[1]+1) +  '"]');
+			let cell = $('[data-row="' + (coords[0]+1) +  '"][data-col="' + (coords[1]+1) +  '"]'); // $("#grid").find('[data-row="' + (coords[0]+1) +  '"]'); // .find('[data-col="' + (coords[1]+1) +  '"]');
 			console.log(cell);
 			cell.find(t3.aiClass).fadeIn();
 			cell.addClass("test-color-red");
