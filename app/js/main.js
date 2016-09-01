@@ -122,9 +122,14 @@ $(document).ready(function() {
 				t3.state[row][col] = 1;
 				$cell.show();
 
+				var gameStatus = checkGameStatus();
+				console.log(gameStatus);
+
 				console.log("State before AI move");
 				printGridState();
-				makeRandomMove();
+				makeRandomMove(); // comp
+				gameStatus = checkGameStatus();
+				console.log(gameStatus);
 				// findBestMove(); // rename this function
 				console.log("State after AI move");
 				printGridState();
@@ -195,7 +200,141 @@ $(document).ready(function() {
 
 	function checkGameStatus() {
 		// check whether there is any kind of win or tie on the grid.
-	}
+		var doWeHaveAWin = false;
+
+		// horizontal check
+		// t3.state.map(function(row) {
+		// 	var human = 0;
+		// 	var comp = 0;
+		// 	row.filter(function(cell) {
+		//
+		// 		if (cell == 1) { human++ }
+		// 		if (cell == 0) { comp++ }
+		// 	});
+		//
+		// 	if (human == 3) {
+		// 		return []
+		// 	}
+		// })
+
+		// Change this to something more elegant!
+
+		// HORZ CHECK
+		for (var i = 0; i < t3.state.length; i++) {
+			var human = 0;
+			var comp = 0;
+
+			var internalLength = t3.state[i].length;
+			for (var j = 0; j < internalLength; j++) {
+				var cell = t3.state[i][j];
+				if (cell == 1) {
+					human++;
+				} else if (cell == 0){
+					comp++;
+				}
+			} // end of internal FOR loop
+
+			if (human === 3) {
+				return {
+					cellInfo: [[i, 0], [i, 1], [i, 2]],
+					who: 'human'
+				}
+			}
+
+			if (comp === 3) {
+				return {
+					cellInfo: [[i, 0], [i, 1], [i, 2]],
+					who: 'comp'
+				}
+			}
+
+		} // end of external FOR loop
+
+
+		// VERT CHECK
+		/*
+		for (var i = 0; i < t3.state.length; i++) {
+			var human = 0;
+			var comp = 0;
+
+
+
+			var internalLength = t3.state[i].length;
+			for (var j = 0; j < internalLength; j++) {
+
+			}
+
+		}
+		*/
+
+		// DIAGONAL CHECKS
+
+		// TOP-LEFT -> BOTTOM-RIGHT
+
+		var human = 0;
+		var comp = 0;
+		for (var i = 0; i < t3.state.length; i++) {
+			var human = 0;
+			var comp = 0;
+
+			if (t3.state[i][i] == 1) { human++ }
+			if (t3.state[i][i] == 0) { comp++ }
+		}
+
+		if (human == 3) {
+			return {
+				cellInfo: [[0,0], [1,1], [2,2]],
+				who: 'human'
+			}
+		} else if (comp == 3) {
+			return {
+				cellInfo: [[0,0], [1,1], [2,2]],
+				who: 'comp'
+			}
+		}
+
+		// BOTTOM-LEFT -> TOP-RIGHT
+
+
+		var human = 0;
+		var comp = 0;
+
+		var currCell = t3.state[0][2];
+		if (currCell == 1) {
+			human++;
+		} else if (currCell == 0) {
+			comp++;
+		}
+
+		currCell = t3.state[1][1];
+		if (currCell == 1) {
+			human++;
+		} else if (currCell == 0) {
+			comp++;
+		}
+
+		currCell = t3.state[2][0];
+		if (currCell == 1) {
+			human++;
+		} else if (currCell == 0) {
+			comp++;
+		}
+
+		if (human == 3) {
+			return {
+				cellInfo: [[0,2], [1,1], [2,0]],
+				who: 'human'
+			}
+		} else if (comp == 3) {
+			return {
+				cellInfo: [[0,2], [1,1], [2,0]],
+				who: 'comp'
+			}
+		}
+
+		return "nobody won yet";
+
+	} // end of checkGameStatus
 
 /*
 	function findBestMove() {
