@@ -123,12 +123,51 @@ $(document).ready(function() {
 				$cell.show();
 
 				var gameStatus = checkGameStatus();
+				console.log("GAME STATUS: ");
 				console.log(gameStatus);
+				console.log("Type of Game Status - " + typeof gameStatus);
+
+				// for human turn - move to its own function
+				if (typeof gameStatus == 'object') {
+					for (var i = 0; i < 3; i++) {
+						var testCellRow = gameStatus.cellInfo[i][0];
+						var testCellCol = gameStatus.cellInfo[i][1];
+
+						let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
+						cell.addClass("highlight-test");
+						setTimeout(function() {
+							cell.removeClass("highlight-test");
+						}, 2000);
+					}
+
+
+				}
 
 				console.log("State before AI move");
 				printGridState();
 				makeRandomMove(); // comp
 				gameStatus = checkGameStatus();
+
+				// for comp turn - move to its own function
+				if (typeof gameStatus == 'object') {
+					for (var i = 0; i < 3; i++) {
+						var testCellRow = gameStatus.cellInfo[i][0];
+						var testCellCol = gameStatus.cellInfo[i][1];
+
+						let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
+						cell.addClass("highlight-test");
+						setTimeout(function() {
+							cell.removeClass("highlight-test");
+						}, 2000);
+					}
+
+
+				}
+
+				// have a function for highlighting the cell here ->
+				// for now just do the test
+				// then the game should stop if this function gets run? or inside of it
+
 				console.log(gameStatus);
 				// findBestMove(); // rename this function
 				console.log("State after AI move");
@@ -485,10 +524,10 @@ $(document).ready(function() {
 		establishSymbols();
 		// maybe this function should be run after.
 		// activateGrid();
-		draw();
+		draw(); // ?
 	}
 
-	init();
+	init(); // is this needed at all?
 
 	// Approximate plan
 
@@ -496,17 +535,17 @@ $(document).ready(function() {
 		// decide whose turn is it?
 
 	}
-
-	function reset() {
-
-	}
-
-	function update() {
-		// update using the state.
-	}
-
-	function render() {
-
-	}
+	//
+	// function reset() {
+	//
+	// }
+	//
+	// function update() {
+	// 	// update using the state.
+	// }
+	//
+	// function render() {
+	//
+	// }
 
 });

@@ -54,6 +54,9 @@ p {
   justify-content: center;
   align-items: center; }
 
+.highlight-test {
+  background-color: skyblue; }
+
 /******* PSEUDO STYLES *******/
 /******* MEDIA QUERIES *******/
 @media (min-width: 1000px) {
