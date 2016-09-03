@@ -23,8 +23,6 @@ let state = [
 // AI Code Representation: 0
 // Empty Cell Representation: -1
 
-// Maybe use a canvas
-
 let t3 = {
 	state: [
 		[-1, -1, -1],
@@ -39,6 +37,9 @@ let t3 = {
 	isHumanTurn: true,
 	aiSymbol: "1",
 	humanSymbol: "1",
+	isFinished: false,
+	whoWon: "nobody",
+	winningCells: []
 	// game object?
 };
 
@@ -150,6 +151,11 @@ $(document).ready(function() {
 
 				// for comp turn - move to its own function
 				if (typeof gameStatus == 'object') {
+					t3.isFinished = true; // needed?
+					t3.whoWon = gameStatus.who;
+
+					// Should this be a part of reset game function? no - it should be its own function
+
 					for (var i = 0; i < 3; i++) {
 						var testCellRow = gameStatus.cellInfo[i][0];
 						var testCellCol = gameStatus.cellInfo[i][1];
@@ -159,6 +165,13 @@ $(document).ready(function() {
 						setTimeout(function() {
 							cell.removeClass("highlight-test");
 						}, 2000);
+
+						setTimeout(function() {
+							resetGame();
+							return;
+						}, 2000);
+
+
 					}
 
 
@@ -541,6 +554,18 @@ $(document).ready(function() {
 
 	}
 */
+
+	function resetGame() {
+		console.log("State after the game is finished");
+		console.log(t3.state);
+		t3.state = t3.state.map(function(row) {
+			return row.map(function(cell) {
+				return -1;
+			});
+		});
+		console.log("State of the game after it's been cleaned");
+		console.log(t3.state);
+	}
 
 	function showMoveAI(coords) {
 		setTimeout(function() {
