@@ -273,6 +273,11 @@ $(document).ready(function() {
 				}
 			} // end of internal FOR loop
 
+			console.log("#######");
+			console.log("HORZ CHECK:")
+			console.log("HUMAN: " + human);
+			console.log("COMP: " + comp);
+
 			if (human === 3) {
 				return {
 					cellInfo: [[i, 0], [i, 1], [i, 2]],
@@ -291,20 +296,41 @@ $(document).ready(function() {
 
 
 		// VERT CHECK
-		/*
+
 		for (var i = 0; i < t3.state.length; i++) {
 			var human = 0;
 			var comp = 0;
 
-
-
 			var internalLength = t3.state[i].length;
 			for (var j = 0; j < internalLength; j++) {
+				var cell = t3.state[j][i];
+				if (cell == 1) {
+					human++;
+				} else if (cell == 0){
+					comp++;
+				}
+			} // end of internal FOR loop
 
+			console.log("#######");
+			console.log("VERT CHECK:")
+			console.log("HUMAN: " + human);
+			console.log("COMP: " + comp);
+
+			if (human === 3) {
+				return {
+					cellInfo: [[0, i], [1, i], [2, i]],
+					who: 'human'
+				}
 			}
 
-		}
-		*/
+			if (comp === 3) {
+				return {
+					cellInfo: [[0, i], [1, i], [2, i]],
+					who: 'comp'
+				}
+			}
+
+			} // end of external FOR loop
 
 		// DIAGONAL CHECKS
 
@@ -313,12 +339,16 @@ $(document).ready(function() {
 		var human = 0;
 		var comp = 0;
 		for (var i = 0; i < t3.state.length; i++) {
-			var human = 0;
-			var comp = 0;
+			// var human = 0;
+			// var comp = 0;
 
 			if (t3.state[i][i] == 1) { human++ }
 			if (t3.state[i][i] == 0) { comp++ }
 		}
+
+		console.log("TOP-LEFT BOTTOM-RIGHT CHECK:")
+		console.log("HUMAN: " + human);
+		console.log("COMP: " + comp);
 
 		if (human == 3) {
 			return {
@@ -358,6 +388,10 @@ $(document).ready(function() {
 		} else if (currCell == 0) {
 			comp++;
 		}
+
+		console.log("BOTTOM-LEFT TOP-RIGHT CHECK:")
+		console.log("HUMAN: " + human);
+		console.log("COMP: " + comp);
 
 		if (human == 3) {
 			return {
