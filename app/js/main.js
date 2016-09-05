@@ -171,7 +171,6 @@ $(document).ready(function() {
 							return;
 						}, 2000);
 
-
 					}
 
 
@@ -213,16 +212,6 @@ $(document).ready(function() {
 		console.log("State:");
 		console.log(stateString);
 	}
-
-	// function humanMove() {
-	//
-	// }
-
-	// function aiMove() {
-	// 	// look at the state.
-	// 	// make decisions
-	// 	let sym = t3.aiSymbol;
-	// }
 
 	function makeRandomMove() {
 		randomIndexes = [];
@@ -556,8 +545,6 @@ $(document).ready(function() {
 */
 
 	function resetGame() {
-		console.log("State after the game is finished");
-		console.log(t3.state);
 		t3.state = t3.state.map(function(row) {
 			return row.map(function(cell) {
 				return -1;
@@ -565,6 +552,17 @@ $(document).ready(function() {
 		});
 		console.log("State of the game after it's been cleaned");
 		console.log(t3.state);
+		// show symbol to choose?
+
+		// remove all the classes that enable signs to show
+		cleanGrid();
+	}
+
+	function cleanGrid() {
+		console.log("The Clean Grid function runs");
+		console.log("Whats inside the .cell");
+		console.log($('.cell'));
+		$('.cell').removeClass(t3.humanClass).removeClass(t3.aiClass); //.removeClass(t3.humanMove);
 	}
 
 	function showMoveAI(coords) {
@@ -575,7 +573,7 @@ $(document).ready(function() {
 			let cell = $('[data-row="' + (coords[0]+1) +  '"][data-col="' + (coords[1]+1) +  '"]'); // $("#grid").find('[data-row="' + (coords[0]+1) +  '"]'); // .find('[data-col="' + (coords[1]+1) +  '"]');
 			console.log(cell);
 			cell.find(t3.aiClass).fadeIn();
-			cell.addClass("test-color-red");
+			cell.addClass("test-color-red"); // maybe delete this?
 		}, 500);
 	}
 
@@ -594,17 +592,5 @@ $(document).ready(function() {
 		// decide whose turn is it?
 
 	}
-	//
-	// function reset() {
-	//
-	// }
-	//
-	// function update() {
-	// 	// update using the state.
-	// }
-	//
-	// function render() {
-	//
-	// }
 
 });
