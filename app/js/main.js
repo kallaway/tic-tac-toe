@@ -92,17 +92,6 @@ $(document).ready(function() {
 
 	function activateGrid() {
 		let currentClass;
-		// if (t3.isHumanTurn) {
-		// 	currentClass = t3.humanSymbol == "x" ? '.fa-times' : '.fa-circle-o';
-		// 	// if (t3.humanSymbol = "o") {
-		// 	// 	currentClass = '.fa-circle-o';
-		// 	// } else {
-		// 	// 	currentClass = '.fa-times';
-		// 	// }
-		//
-		// } else {
-		// 	currentClass = t3.aiSymbol == "x" ? '.fa-times' : '.fa-circle-o';
-		// }
 
 		function playOneTurn() {
 
@@ -141,7 +130,6 @@ $(document).ready(function() {
 						}, 2000);
 					}
 
-
 				}
 
 				console.log("State before AI move");
@@ -150,15 +138,15 @@ $(document).ready(function() {
 				gameStatus = checkGameStatus();
 
 				// for comp turn - move to its own function
-				if (typeof gameStatus == 'object') {
+				if (t3.winningCells.length) {
+				// if (typeof gameStatus == 'object') {
 					t3.isFinished = true; // needed?
-					t3.whoWon = gameStatus.who;
+					// t3.whoWon = gameStatus.who;
 
 					// Should this be a part of reset game function? no - it should be its own function
-
 					for (var i = 0; i < 3; i++) {
-						var testCellRow = gameStatus.cellInfo[i][0];
-						var testCellCol = gameStatus.cellInfo[i][1];
+						var testCellRow = t3.winningCells[i][0];
+						var testCellCol = t3.winningCells[i][1];
 
 						let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
 						cell.addClass("highlight-test");
@@ -202,13 +190,11 @@ $(document).ready(function() {
 				} else {
 					stateStringHelper = "C"; // Computer
 				}
-
 				stateString += stateStringHelper  + " | ";
 			}
 			stateString += "\n| ";
 		}
 		stateString += "----------------";
-
 		console.log("State:");
 		console.log(stateString);
 	}
@@ -280,11 +266,21 @@ $(document).ready(function() {
 			console.log("HUMAN: " + human);
 			console.log("COMP: " + comp);
 
+			if (human === 3 || comp === 3) { // improve this code.
+				t3.winningCells = [ [i, 0], [i, 1], [i, 2] ];
+			}
+
+			t3.whoWon = human === 3 ? 'human' : t3.whoWon;
+			t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
+
 			if (human === 3) {
 				return {
 					cellInfo: [[i, 0], [i, 1], [i, 2]],
 					who: 'human'
 				}
+
+				// t3.winningCells = [[i, 0], [i, 1], [i, 2]];
+				// t3.whoWon = 'human';
 			}
 
 			if (comp === 3) {
@@ -292,6 +288,9 @@ $(document).ready(function() {
 					cellInfo: [[i, 0], [i, 1], [i, 2]],
 					who: 'comp'
 				}
+
+				// t3.winningCells = [[i, 0], [i, 1], [i, 2]];
+				// t3.whoWon = 'comp';
 			}
 
 		} // end of external FOR loop
@@ -313,16 +312,25 @@ $(document).ready(function() {
 				}
 			} // end of internal FOR loop
 
-			console.log("#######");
 			console.log("VERT CHECK:")
 			console.log("HUMAN: " + human);
 			console.log("COMP: " + comp);
+
+			if (human === 3 || comp === 3) {
+				t3.winningCells = [[0, i], [1, i], [2, i]];
+			}
+
+			t3.whoWon = human === 3 ? 'human' : t3.whoWon;
+			t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
 
 			if (human === 3) {
 				return {
 					cellInfo: [[0, i], [1, i], [2, i]],
 					who: 'human'
 				}
+
+				// t3.winningCells = [[0, i], [1, i], [2, i]];
+				// t3.whoWon = 'comp';
 			}
 
 			if (comp === 3) {
@@ -330,6 +338,9 @@ $(document).ready(function() {
 					cellInfo: [[0, i], [1, i], [2, i]],
 					who: 'comp'
 				}
+
+				// t3.winningCells = [[0, i], [1, i], [2, i]];
+				// t3.whoWon = 'comp';
 			}
 
 			} // end of external FOR loop
@@ -351,6 +362,13 @@ $(document).ready(function() {
 		console.log("TOP-LEFT BOTTOM-RIGHT CHECK:")
 		console.log("HUMAN: " + human);
 		console.log("COMP: " + comp);
+
+		if (human === 3 || comp === 3) {
+			t3.winningCells = [ [0,0], [1,1], [2,2] ];
+		}
+
+		t3.whoWon = human === 3 ? 'human' : t3.whoWon;
+		t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
 
 		if (human == 3) {
 			return {
@@ -394,6 +412,13 @@ $(document).ready(function() {
 		console.log("BOTTOM-LEFT TOP-RIGHT CHECK:")
 		console.log("HUMAN: " + human);
 		console.log("COMP: " + comp);
+
+		if (human === 3 || comp === 3) {
+			t3.winningCells = [ [0,2], [1,1], [2,0] ];
+		}
+
+		t3.whoWon = human === 3 ? 'human' : t3.whoWon;
+		t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
 
 		if (human == 3) {
 			return {
@@ -559,10 +584,8 @@ $(document).ready(function() {
 	}
 
 	function cleanGrid() {
-		console.log("The Clean Grid function runs");
-		console.log("Whats inside the .cell");
-		console.log($('.cell'));
-		$('.cell').removeClass(t3.humanClass).removeClass(t3.aiClass); //.removeClass(t3.humanMove);
+		$('.fa-times').hide();
+		$('.fa-circle-o').hide();
 	}
 
 	function showMoveAI(coords) {
