@@ -10,6 +10,11 @@ let state = [
 	[-1, -1, -1]
 ];
 
+// TODO Resolve the issue with the highlighting of human moves
+// TODO Make sure nobody can make a move after the game was finished
+// TODO Should the players be able to choose their symbol each time a game starts?
+// TODO When nobody wins, make the game restart itself anyway
+
 
 // GAME LOOP
 // 1. Choose the sign: X or O
@@ -118,10 +123,10 @@ $(document).ready(function() {
 				console.log("Type of Game Status - " + typeof gameStatus);
 
 				// for human turn - move to its own function
-				if (typeof gameStatus == 'object') {
+				if (t3.whoWon !== 'nobody') { // typeof gameStatus == 'object') {
 					for (var i = 0; i < 3; i++) {
-						var testCellRow = gameStatus.cellInfo[i][0];
-						var testCellCol = gameStatus.cellInfo[i][1];
+						var testCellRow = t3.winningCells[i][0]; //gameStatus.cellInfo[i][0];
+						var testCellCol = t3.winningCells[i][1]; // gameStatus.cellInfo[i][1];
 
 						let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
 						cell.addClass("highlight-test");
@@ -273,25 +278,25 @@ $(document).ready(function() {
 			t3.whoWon = human === 3 ? 'human' : t3.whoWon;
 			t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
 
-			if (human === 3) {
-				return {
-					cellInfo: [[i, 0], [i, 1], [i, 2]],
-					who: 'human'
-				}
+			// if (human === 3) {
+			// 	return {
+			// 		cellInfo: [[i, 0], [i, 1], [i, 2]],
+			// 		who: 'human'
+			// 	}
+			//
+			// 	// t3.winningCells = [[i, 0], [i, 1], [i, 2]];
+			// 	// t3.whoWon = 'human';
+			// }
 
-				// t3.winningCells = [[i, 0], [i, 1], [i, 2]];
-				// t3.whoWon = 'human';
-			}
-
-			if (comp === 3) {
-				return {
-					cellInfo: [[i, 0], [i, 1], [i, 2]],
-					who: 'comp'
-				}
-
-				// t3.winningCells = [[i, 0], [i, 1], [i, 2]];
-				// t3.whoWon = 'comp';
-			}
+			// if (comp === 3) {
+			// 	return {
+			// 		cellInfo: [[i, 0], [i, 1], [i, 2]],
+			// 		who: 'comp'
+			// 	}
+			//
+			// 	// t3.winningCells = [[i, 0], [i, 1], [i, 2]];
+			// 	// t3.whoWon = 'comp';
+			// }
 
 		} // end of external FOR loop
 
@@ -323,25 +328,25 @@ $(document).ready(function() {
 			t3.whoWon = human === 3 ? 'human' : t3.whoWon;
 			t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
 
-			if (human === 3) {
-				return {
-					cellInfo: [[0, i], [1, i], [2, i]],
-					who: 'human'
-				}
+			// if (human === 3) {
+			// 	return {
+			// 		cellInfo: [[0, i], [1, i], [2, i]],
+			// 		who: 'human'
+			// 	}
+			//
+			// 	// t3.winningCells = [[0, i], [1, i], [2, i]];
+			// 	// t3.whoWon = 'comp';
+			// }
 
-				// t3.winningCells = [[0, i], [1, i], [2, i]];
-				// t3.whoWon = 'comp';
-			}
-
-			if (comp === 3) {
-				return {
-					cellInfo: [[0, i], [1, i], [2, i]],
-					who: 'comp'
-				}
-
-				// t3.winningCells = [[0, i], [1, i], [2, i]];
-				// t3.whoWon = 'comp';
-			}
+			// if (comp === 3) {
+			// 	return {
+			// 		cellInfo: [[0, i], [1, i], [2, i]],
+			// 		who: 'comp'
+			// 	}
+			//
+			// 	// t3.winningCells = [[0, i], [1, i], [2, i]];
+			// 	// t3.whoWon = 'comp';
+			// }
 
 			} // end of external FOR loop
 
@@ -370,17 +375,17 @@ $(document).ready(function() {
 		t3.whoWon = human === 3 ? 'human' : t3.whoWon;
 		t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
 
-		if (human == 3) {
-			return {
-				cellInfo: [[0,0], [1,1], [2,2]],
-				who: 'human'
-			}
-		} else if (comp == 3) {
-			return {
-				cellInfo: [[0,0], [1,1], [2,2]],
-				who: 'comp'
-			}
-		}
+		// if (human == 3) {
+		// 	return {
+		// 		cellInfo: [[0,0], [1,1], [2,2]],
+		// 		who: 'human'
+		// 	}
+		// } else if (comp == 3) {
+		// 	return {
+		// 		cellInfo: [[0,0], [1,1], [2,2]],
+		// 		who: 'comp'
+		// 	}
+		// }
 
 		// BOTTOM-LEFT -> TOP-RIGHT
 
@@ -420,17 +425,17 @@ $(document).ready(function() {
 		t3.whoWon = human === 3 ? 'human' : t3.whoWon;
 		t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
 
-		if (human == 3) {
-			return {
-				cellInfo: [[0,2], [1,1], [2,0]],
-				who: 'human'
-			}
-		} else if (comp == 3) {
-			return {
-				cellInfo: [[0,2], [1,1], [2,0]],
-				who: 'comp'
-			}
-		}
+		// if (human == 3) {
+		// 	return {
+		// 		cellInfo: [[0,2], [1,1], [2,0]],
+		// 		who: 'human'
+		// 	}
+		// } else if (comp == 3) {
+		// 	return {
+		// 		cellInfo: [[0,2], [1,1], [2,0]],
+		// 		who: 'comp'
+		// 	}
+		// }
 
 		return "nobody won yet";
 
@@ -570,6 +575,8 @@ $(document).ready(function() {
 */
 
 	function resetGame() {
+		t3.whoWon = 'nobody';
+		t3.winningCells = [];
 		t3.state = t3.state.map(function(row) {
 			return row.map(function(cell) {
 				return -1;
