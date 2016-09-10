@@ -75,19 +75,28 @@ p {
 	background-color: skyblue;
 }
 
+.game-result {
+	display: none;
+	text-align: center;
+	color: $font-color-test;
+	font-size: 2em;
+	position: absolute;
+	top: 5%;
+}
+
 /******* PSEUDO STYLES *******/
 
 /******* MEDIA QUERIES *******/
-@media (min-width: 1000px) {
-	body {
-		background-color: green;
-		font-size: 6em;
-	}
-
-	.cell {
-		// text-align: center;
-		width: 200px;
-		height: 200px;
-	}
-
-}
+// @media (min-width: 1000px) {
+// 	body {
+// 		background-color: green;
+// 		font-size: 6em;
+// 	}
+//
+// 	.cell {
+// 		// text-align: center;
+// 		width: 200px;
+// 		height: 200px;
+// 	}
+//
+// }

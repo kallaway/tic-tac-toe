@@ -57,12 +57,13 @@ p {
 .highlight-test {
   background-color: skyblue; }
 
+.game-result {
+  display: none;
+  text-align: center;
+  color: #F6C667;
+  font-size: 2em;
+  position: absolute;
+  top: 5%; }
+
 /******* PSEUDO STYLES *******/
 /******* MEDIA QUERIES *******/
-@media (min-width: 1000px) {
-  body {
-    background-color: green;
-    font-size: 6em; }
-  .cell {
-    width: 200px;
-    height: 200px; } }

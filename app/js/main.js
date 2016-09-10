@@ -50,13 +50,15 @@ let t3 = {
 
 $(document).ready(function() {
 
-	let $choiceX = $('.choice-x');
-	let $choiceO = $('.choice-o');
-	let $cells = $('.cell');
-	let randomIndexes = [];
+	let $choiceX = $('.choice-x'),
+	$choiceO = $('.choice-o'),
+	$cells = $('.cell'),
+	randomIndexes = [];
 
-	let $chooseSide = $('#choose-side');
-	let $grid = $('#grid');
+	let $chooseSide = $('#choose-side'),
+	$grid = $('#grid'),
+	$compWon = $('#comp-won'),
+	$humanWon = $('#human-won');
 
 	console.log("ChoiceX:");
 	console.log($choiceX);
@@ -146,7 +148,6 @@ $(document).ready(function() {
 				if (t3.winningCells.length) {
 				// if (typeof gameStatus == 'object') {
 					t3.isFinished = true; // needed?
-					// t3.whoWon = gameStatus.who;
 
 					// Should this be a part of reset game function? no - it should be its own function
 					for (var i = 0; i < 3; i++) {
@@ -157,12 +158,15 @@ $(document).ready(function() {
 						cell.addClass("highlight-test");
 						setTimeout(function() {
 							cell.removeClass("highlight-test");
+							showWhoWon()
 						}, 2000);
 
 						setTimeout(function() {
 							resetGame();
 							return;
 						}, 2000);
+
+
 
 					}
 
@@ -278,26 +282,6 @@ $(document).ready(function() {
 			t3.whoWon = human === 3 ? 'human' : t3.whoWon;
 			t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
 
-			// if (human === 3) {
-			// 	return {
-			// 		cellInfo: [[i, 0], [i, 1], [i, 2]],
-			// 		who: 'human'
-			// 	}
-			//
-			// 	// t3.winningCells = [[i, 0], [i, 1], [i, 2]];
-			// 	// t3.whoWon = 'human';
-			// }
-
-			// if (comp === 3) {
-			// 	return {
-			// 		cellInfo: [[i, 0], [i, 1], [i, 2]],
-			// 		who: 'comp'
-			// 	}
-			//
-			// 	// t3.winningCells = [[i, 0], [i, 1], [i, 2]];
-			// 	// t3.whoWon = 'comp';
-			// }
-
 		} // end of external FOR loop
 
 
@@ -328,26 +312,6 @@ $(document).ready(function() {
 			t3.whoWon = human === 3 ? 'human' : t3.whoWon;
 			t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
 
-			// if (human === 3) {
-			// 	return {
-			// 		cellInfo: [[0, i], [1, i], [2, i]],
-			// 		who: 'human'
-			// 	}
-			//
-			// 	// t3.winningCells = [[0, i], [1, i], [2, i]];
-			// 	// t3.whoWon = 'comp';
-			// }
-
-			// if (comp === 3) {
-			// 	return {
-			// 		cellInfo: [[0, i], [1, i], [2, i]],
-			// 		who: 'comp'
-			// 	}
-			//
-			// 	// t3.winningCells = [[0, i], [1, i], [2, i]];
-			// 	// t3.whoWon = 'comp';
-			// }
-
 			} // end of external FOR loop
 
 		// DIAGONAL CHECKS
@@ -374,21 +338,6 @@ $(document).ready(function() {
 
 		t3.whoWon = human === 3 ? 'human' : t3.whoWon;
 		t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
-
-		// if (human == 3) {
-		// 	return {
-		// 		cellInfo: [[0,0], [1,1], [2,2]],
-		// 		who: 'human'
-		// 	}
-		// } else if (comp == 3) {
-		// 	return {
-		// 		cellInfo: [[0,0], [1,1], [2,2]],
-		// 		who: 'comp'
-		// 	}
-		// }
-
-		// BOTTOM-LEFT -> TOP-RIGHT
-
 
 		var human = 0;
 		var comp = 0;
@@ -425,154 +374,9 @@ $(document).ready(function() {
 		t3.whoWon = human === 3 ? 'human' : t3.whoWon;
 		t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
 
-		// if (human == 3) {
-		// 	return {
-		// 		cellInfo: [[0,2], [1,1], [2,0]],
-		// 		who: 'human'
-		// 	}
-		// } else if (comp == 3) {
-		// 	return {
-		// 		cellInfo: [[0,2], [1,1], [2,0]],
-		// 		who: 'comp'
-		// 	}
-		// }
-
 		return "nobody won yet";
 
 	} // end of checkGameStatus
-
-/*
-	function findBestMove() {
-		// look at the board
-		let st = t3.state;
-		let sc = t3.score;
-		let coords = [-1, -1];
-
-		// if the middle is still empty, fill it
-		if (st[1][1] == -1) {
-			st[1][1] = 0;
-			coords = [1][1];
-			showMoveAI([1, 1]);
-			return;
-		}
-
-		let topCandidate = [-1, -1];
-
-		let hCounterAI = 0;
-		let hCounterHuman = 0;
-		let counterOpp = 0;
-		let currentRow = 0;
-		let emptyInRow = 0;
-
-		let emptyRow;
-		let emptyCol;
-
-		let topResult = {
-			moveScore: 0,
-			col: -1,
-			row: -1
-		}
-
-		// Should it assign a score to a move?
-		let moveScore = 0;
-		// for each human
-
-		// create a priority Matrix? or just use the current one. Calculate the moveScore for each cell based on the cells around it?
-
-		// HORIZONTAL CHECK
-		for (var rowJ = 0; rowJ < sc.length; rowJ++) {
-			let line = st[rowJ]; // checking against the actual values in the matrix
-			for (var j = 0; j < line.length; j++) {
-
-				// maybe instead calculate what possibilities does a row have and then only look at whether the cell is open or not.
-
-				console.log("HORZ: Currently, the ROW J is: " + rowJ + " and J is: " + j);
-				console.log("The value inside of the SCORE for the t3.score[rowJ][j] is " + t3.score[rowJ][j]);
-
-				// checking the first column
-				if (j == 0) {
-					if (line[j+1] == 0) {
-						sc[line][j] += 5;
-					}
-
-					if (line[j+2] == 0) {
-						sc[line][j] += 5;
-					}
-				}
-
-				// checking the second column
-				if (j == 1) {
-					if (line[j-1] == 0) {
-						sc[line][j] += 5;
-					}
-
-					if (line[j+1] == 0) {
-						sc[line][j] += 5;
-					}
-				}
-
-				// checking the third column
-				if (j == 2) {
-					if (line[j-2] == 0) {
-						sc[line][j] += 5;
-					}
-
-					if (line[j-1] == 0) {
-						sc[line][j] += 5;
-					}
-				}
-			}
-		}
-
-		// VERTICAL
-		for (var rowK = 0; rowK < sc.length; rowK++) {
-			let line = st[rowK]; // checking against the actual values in the matrix
-			for (var k = 0; k < line.length; k++) {
-
-
-				if (k == 0) {
-					if (line[rowK][k] == 0) {
-
-					}
-				}
-
-			}
-		}
-
-
-		console.log("Now let's take a look into the scores of the cells");
-		console.log(t3.score);
-
-		// horizontal
-		console.log("AI potential move evaluation runs");
-		for (var rowI = 0; rowI < st.length; rowI++) {
-			let line = st[rowI];
-			hCounterAI = 0;
-			hCounterHuman = 0;
-			for (var i = 0; i < line.length; i++) {
-				if (line[i] == 0) {
-					hCounterAI++;
-				} else if (line[i] == 1) {
-					hCounterHuman++;
-				} else {
-					emptyCol = i;
-					emptyRow = rowI;
-				}
-
-
-				if (hCounterAI == 2 && hCounterHuman == 0) {
-					topCandidate = [emptyRow, emptyCol];
-					console.log("Current test runs!");
-					console.log("When successful, emptyRow is " + emptyRow + " and emptyCol is " + emptyCol);
-					coords = [emptyRow][emptyCol];
-					showMoveAI(topCandidate);
-					return;
-				}
-			}
-		}
-
-	}
-*/
 
 	function resetGame() {
 		t3.whoWon = 'nobody';
@@ -585,9 +389,19 @@ $(document).ready(function() {
 		console.log("State of the game after it's been cleaned");
 		console.log(t3.state);
 		// show symbol to choose?
-
 		// remove all the classes that enable signs to show
 		cleanGrid();
+	}
+
+	function showWhoWon() {
+		console.log("Show who won function runs");
+		if (t3.whoWon == 'human') {
+			$humanWon.display = block;
+			$humanWon.show().delay(3000).hide(); // redo it so it blinks?
+		} else if (t3.whoWon == 'comp'){
+			$compWon.display = block;
+			$compWon.show().delay(3000).hide();
+		}
 	}
 
 	function cleanGrid() {
@@ -600,7 +414,7 @@ $(document).ready(function() {
 			console.log("Show Move AI runs, with the following coordinates: ");
 			console.log(coords);
 			// find the right element
-			let cell = $('[data-row="' + (coords[0]+1) +  '"][data-col="' + (coords[1]+1) +  '"]'); // $("#grid").find('[data-row="' + (coords[0]+1) +  '"]'); // .find('[data-col="' + (coords[1]+1) +  '"]');
+			let cell = $('[data-row="' + (coords[0]+1) +  '"][data-col="' + (coords[1]+1) +  '"]');
 			console.log(cell);
 			cell.find(t3.aiClass).fadeIn();
 			cell.addClass("test-color-red"); // maybe delete this?
@@ -611,16 +425,8 @@ $(document).ready(function() {
 		establishSymbols();
 		// maybe this function should be run after.
 		// activateGrid();
-		draw(); // ?
 	}
 
 	init(); // is this needed at all?
-
-	// Approximate plan
-
-	function draw() {
-		// decide whose turn is it?
-
-	}
 
 });
