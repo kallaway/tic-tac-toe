@@ -68,12 +68,11 @@ $(document).ready(function() {
 	function establishSymbols() {
 
 		$choiceO.on('click', function() {
-			$(this).addClass('test-color-red');
+			$(this).addClass('comp-move-color');
 			t3.humanSymbol = "o";
 			t3.aiSymbol = "x";
 			t3.humanClass = '.fa-circle-o';
 			t3.aiClass = '.fa-times';
-			// close the
 			activateGrid();
 
 			$chooseSide.hide();
@@ -81,7 +80,7 @@ $(document).ready(function() {
 		});
 
 		$choiceX.on('click', function() {
-			$(this).addClass('test-color-red');
+			$(this).addClass('comp-move-color');
 			t3.humanSymbol = "x";
 			t3.aiSymbol = "o";
 			t3.humanClass = '.fa-times';
@@ -99,10 +98,6 @@ $(document).ready(function() {
 
 	function activateGrid() {
 		let currentClass;
-
-		function playOneTurn() {
-
-		}
 
 		$cells.on('click', function() {
 			let $cell = $(this).find(t3.humanClass);
@@ -146,7 +141,6 @@ $(document).ready(function() {
 
 				// for comp turn - move to its own function
 				if (t3.winningCells.length) {
-				// if (typeof gameStatus == 'object') {
 					t3.isFinished = true; // needed?
 
 					// Should this be a part of reset game function? no - it should be its own function
@@ -166,10 +160,7 @@ $(document).ready(function() {
 							return;
 						}, 2000);
 
-
-
 					}
-
 
 				}
 
@@ -236,22 +227,7 @@ $(document).ready(function() {
 
 	function checkGameStatus() {
 		// check whether there is any kind of win or tie on the grid.
-		var doWeHaveAWin = false;
-
-		// horizontal check
-		// t3.state.map(function(row) {
-		// 	var human = 0;
-		// 	var comp = 0;
-		// 	row.filter(function(cell) {
-		//
-		// 		if (cell == 1) { human++ }
-		// 		if (cell == 0) { comp++ }
-		// 	});
-		//
-		// 	if (human == 3) {
-		// 		return []
-		// 	}
-		// })
+		var doWeHaveAWin = false; // needed?
 
 		// Change this to something more elegant!
 
@@ -389,7 +365,6 @@ $(document).ready(function() {
 		console.log("State of the game after it's been cleaned");
 		console.log(t3.state);
 		// show symbol to choose?
-		// remove all the classes that enable signs to show
 		cleanGrid();
 	}
 
@@ -407,6 +382,7 @@ $(document).ready(function() {
 	function cleanGrid() {
 		$('.fa-times').hide();
 		$('.fa-circle-o').hide();
+		$('.cell').removeClass("comp-move-color");
 	}
 
 	function showMoveAI(coords) {
@@ -417,7 +393,7 @@ $(document).ready(function() {
 			let cell = $('[data-row="' + (coords[0]+1) +  '"][data-col="' + (coords[1]+1) +  '"]');
 			console.log(cell);
 			cell.find(t3.aiClass).fadeIn();
-			cell.addClass("test-color-red"); // maybe delete this?
+			cell.addClass("comp-move-color"); // maybe delete this?
 		}, 500);
 	}
 

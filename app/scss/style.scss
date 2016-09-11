@@ -1,6 +1,6 @@
 $bg-color: #F1F8FD;
 $grid-color: #007CB9;
-$font-color-test: #F6C667;
+$font-color: #F6C667;
 $ai-color: #005689;
 
 /*
@@ -15,7 +15,7 @@ body {
 	justify-content: center;
 	flex-direction: column;
 	background-color: $bg-color;
-	color: $font-color-test;
+	color: $font-color;
 	font-size: 3em;
 
 	-webkit-user-select: none;  /* Chrome all / Safari all */
@@ -31,7 +31,7 @@ p {
 
 /******* MAIN STYLES *******/
 
-.test-color-red {
+.comp-move-color {
 	// background-color: white;
 	color: $ai-color;
 }
@@ -78,7 +78,7 @@ p {
 .game-result {
 	display: none;
 	text-align: center;
-	color: $font-color-test;
+	color: $font-color;
 	font-size: 2em;
 	position: absolute;
 	top: 5%;
