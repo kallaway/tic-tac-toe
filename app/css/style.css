@@ -9,7 +9,8 @@ body {
   flex-direction: column;
   background-color: #F1F8FD;
   color: #F6C667;
-  font-size: 3em;
+  font-size: 2em;
+  text-align: center;
   -webkit-user-select: none;
   /* Chrome all / Safari all */
   -moz-user-select: none;
@@ -32,8 +33,9 @@ p {
   align-items: center; }
 
 #grid {
+  margin-top: 10%;
   cursor: pointer;
-  display: none; }
+  background-color: #005689; }
 
 .cell {
   width: 100px;

@@ -16,7 +16,8 @@ body {
 	flex-direction: column;
 	background-color: $bg-color;
 	color: $font-color;
-	font-size: 3em;
+	font-size: 2em;
+	text-align: center;
 
 	-webkit-user-select: none;  /* Chrome all / Safari all */
 	-moz-user-select: none;     /* Firefox all */
@@ -44,8 +45,14 @@ p {
 }
 
 #grid {
+	margin-top: 10%;
 	cursor: pointer;
-	display: none;
+	// display: none;
+	background-color: $ai-color;
+}
+
+#game-status {
+
 }
 
 .cell {

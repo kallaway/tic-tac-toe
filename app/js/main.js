@@ -53,12 +53,12 @@ $(document).ready(function() {
 	let $choiceX = $('.choice-x'),
 	$choiceO = $('.choice-o'),
 	$cells = $('.cell'),
-	randomIndexes = [];
-
-	let $chooseSide = $('#choose-side'),
+	$chooseSide = $('#choose-side'),
 	$grid = $('#grid'),
 	$compWon = $('#comp-won'),
-	$humanWon = $('#human-won');
+	$humanWon = $('#human-won'),
+	$status = $('#game-status'),
+	randomIndexes = [];
 
 	console.log("ChoiceX:");
 	console.log($choiceX);
@@ -75,8 +75,8 @@ $(document).ready(function() {
 			t3.aiClass = '.fa-times';
 			activateGrid();
 
-			$chooseSide.hide();
-			$grid.show();
+			$chooseSide.slideUp();
+			$grid.slideDown();
 		});
 
 		$choiceX.on('click', function() {
@@ -87,8 +87,8 @@ $(document).ready(function() {
 			t3.aiClass = '.fa-circle-o';
 			activateGrid();
 
-			$chooseSide.hide();
-			$grid.show();
+			$chooseSide.slideUp();
+			$grid.slideDown();
 		});
 		// what symbol do you want to use? X or 0?
 
@@ -97,9 +97,13 @@ $(document).ready(function() {
 	}
 
 	function activateGrid() {
+
 		let currentClass;
 
 		$cells.on('click', function() {
+
+
+			// the main GAME LOOP
 			let $cell = $(this).find(t3.humanClass);
 
 			let row = $(this).data("row");
@@ -114,16 +118,18 @@ $(document).ready(function() {
 				t3.state[row][col] = 1;
 				$cell.show();
 
+
+				// This should be changed.
 				var gameStatus = checkGameStatus();
 				console.log("GAME STATUS: ");
 				console.log(gameStatus);
 				console.log("Type of Game Status - " + typeof gameStatus);
 
 				// for human turn - move to its own function
-				if (t3.whoWon !== 'nobody') { // typeof gameStatus == 'object') {
+				if (t3.whoWon !== 'nobody') {
 					for (var i = 0; i < 3; i++) {
-						var testCellRow = t3.winningCells[i][0]; //gameStatus.cellInfo[i][0];
-						var testCellCol = t3.winningCells[i][1]; // gameStatus.cellInfo[i][1];
+						var testCellRow = t3.winningCells[i][0];
+						var testCellCol = t3.winningCells[i][1];
 
 						let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
 						cell.addClass("highlight-test");
@@ -135,6 +141,7 @@ $(document).ready(function() {
 				}
 
 				console.log("State before AI move");
+				$status.text("Computer's turn.");
 				printGridState();
 				makeRandomMove(); // comp
 				gameStatus = checkGameStatus();
@@ -171,6 +178,8 @@ $(document).ready(function() {
 				console.log(gameStatus);
 				// findBestMove(); // rename this function
 				console.log("State after AI move");
+
+
 				printGridState();
 			}
 
@@ -223,6 +232,9 @@ $(document).ready(function() {
 		t3.state[ randomIndexes[randomChoice][0] ][ randomIndexes[randomChoice][1] ] = 0;
 
 		showMoveAI(randomCoords);
+		setTimeout(function() {
+			$status.text("Your turn.");
+		}, 1500);
 	}
 
 	function checkGameStatus() {
@@ -371,9 +383,11 @@ $(document).ready(function() {
 	function showWhoWon() {
 		console.log("Show who won function runs");
 		if (t3.whoWon == 'human') {
+			$status.text = "You won! Congratulations!";
 			$humanWon.display = block;
 			$humanWon.show().delay(3000).hide(); // redo it so it blinks?
 		} else if (t3.whoWon == 'comp'){
+			$status.text = "Computer won!";
 			$compWon.display = block;
 			$compWon.show().delay(3000).hide();
 		}
