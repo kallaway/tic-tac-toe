@@ -28,6 +28,7 @@ body {
 
 p {
   color: $grid-color;
+  margin: 1.5% auto;
 }
 
 /******* MAIN STYLES *******/
@@ -45,7 +46,8 @@ p {
 }
 
 #grid {
-	margin-top: 10%;
+
+	margin-top: 5%;
 	cursor: pointer;
 	// display: none;
 	background-color: $ai-color;
@@ -57,6 +59,7 @@ p {
 
 .cell {
 	// text-align: center;
+	font-size: 2.5em;
 	width: 100px;
 	height: 100px;
 	background-color: $grid-color;

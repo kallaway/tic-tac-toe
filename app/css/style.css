@@ -20,7 +20,8 @@ body {
   user-select: none; }
 
 p {
-  color: #007CB9; }
+  color: #007CB9;
+  margin: 1.5% auto; }
 
 /******* MAIN STYLES *******/
 .comp-move-color {
@@ -33,11 +34,12 @@ p {
   align-items: center; }
 
 #grid {
-  margin-top: 10%;
+  margin-top: 5%;
   cursor: pointer;
   background-color: #005689; }
 
 .cell {
+  font-size: 2.5em;
   width: 100px;
   height: 100px;
   background-color: #007CB9;

@@ -14,6 +14,8 @@ let state = [
 // TODO Make sure nobody can make a move after the game was finished
 // TODO Should the players be able to choose their symbol each time a game starts?
 // TODO When nobody wins, make the game restart itself anyway
+// TODO Human move should also be displayed slowly
+// TODO Grid starts off grey? then when activates it changes color to the correct one?
 
 
 // GAME LOOP
@@ -97,94 +99,92 @@ $(document).ready(function() {
 	}
 
 	function activateGrid() {
-
 		let currentClass;
-
 		$cells.on('click', function() {
-
-
-			// the main GAME LOOP
-			let $cell = $(this).find(t3.humanClass);
-
-			let row = $(this).data("row");
-			row = parseInt(row) - 1;
-			console.log("current row: " + row);
-
-			let col = $(this).data("col");
-			col = parseInt(col) - 1;
-			console.log("current col: " + col);
-			if (t3.state[row][col] != 0) {
-				console.log("Check of the cell was successful. Apparently, this cell was not affected by AI");
-				t3.state[row][col] = 1;
-				$cell.show();
-
-
-				// This should be changed.
-				var gameStatus = checkGameStatus();
-				console.log("GAME STATUS: ");
-				console.log(gameStatus);
-				console.log("Type of Game Status - " + typeof gameStatus);
-
-				// for human turn - move to its own function
-				if (t3.whoWon !== 'nobody') {
-					for (var i = 0; i < 3; i++) {
-						var testCellRow = t3.winningCells[i][0];
-						var testCellCol = t3.winningCells[i][1];
-
-						let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
-						cell.addClass("highlight-test");
-						setTimeout(function() {
-							cell.removeClass("highlight-test");
-						}, 2000);
-					}
-
-				}
-
-				console.log("State before AI move");
-				$status.text("Computer's turn.");
-				printGridState();
-				makeRandomMove(); // comp
-				gameStatus = checkGameStatus();
-
-				// for comp turn - move to its own function
-				if (t3.winningCells.length) {
-					t3.isFinished = true; // needed?
-
-					// Should this be a part of reset game function? no - it should be its own function
-					for (var i = 0; i < 3; i++) {
-						var testCellRow = t3.winningCells[i][0];
-						var testCellCol = t3.winningCells[i][1];
-
-						let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
-						cell.addClass("highlight-test");
-						setTimeout(function() {
-							cell.removeClass("highlight-test");
-							showWhoWon()
-						}, 2000);
-
-						setTimeout(function() {
-							resetGame();
-							return;
-						}, 2000);
-
-					}
-
-				}
-
-				// have a function for highlighting the cell here ->
-				// for now just do the test
-				// then the game should stop if this function gets run? or inside of it
-
-				console.log(gameStatus);
-				// findBestMove(); // rename this function
-				console.log("State after AI move");
-
-
-				printGridState();
-			}
-
+			var clickedCell = this;
+			runGameLoop(clickedCell);
 		});
 
+	}
+
+	function runGameLoop(clickedCell) {
+		// the main GAME LOOP
+		let $cell = $(clickedCell).find(t3.humanClass);
+
+		let row = $(clickedCell).data("row");
+		row = parseInt(row) - 1;
+		console.log("current row: " + row);
+
+		let col = $(clickedCell).data("col");
+		col = parseInt(col) - 1;
+		console.log("current col: " + col);
+
+		if (t3.state[row][col] != 0) {
+			console.log("Check of the cell was successful. Apparently, this cell was not affected by AI");
+			t3.state[row][col] = 1;
+			$cell.show();
+
+			// This should be changed.
+			var gameStatus = checkGameStatus();
+			console.log("GAME STATUS: ");
+			console.log(gameStatus);
+			console.log("Type of Game Status - " + typeof gameStatus);
+
+			// for human turn - move to its own function
+			if (t3.whoWon !== 'nobody') {
+				for (var i = 0; i < 3; i++) {
+					var testCellRow = t3.winningCells[i][0];
+					var testCellCol = t3.winningCells[i][1];
+
+					let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
+					cell.addClass("highlight-test");
+					setTimeout(function() {
+						cell.removeClass("highlight-test");
+					}, 2000);
+				}
+
+			}
+
+			setTimeout(500); // Delay to make the game more enjoyable
+
+			console.log("State before AI move");
+			$status.text("Computer's turn.");
+			printGridState();
+			makeRandomMove(); // comp
+			gameStatus = checkGameStatus();
+
+			// for comp turn - move to its own function
+			if (t3.winningCells.length) {
+				t3.isFinished = true; // needed?
+
+				// Should this be a part of reset game function? no - it should be its own function
+				for (var i = 0; i < 3; i++) {
+					var testCellRow = t3.winningCells[i][0];
+					var testCellCol = t3.winningCells[i][1];
+
+					let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
+					cell.addClass("highlight-test");
+					setTimeout(function() {
+						cell.removeClass("highlight-test");
+						showWhoWon()
+					}, 2000);
+
+					setTimeout(function() {
+						resetGame();
+						return;
+					}, 2000);
+
+				}
+
+			}
+
+			// have a function for highlighting the cell here ->
+			// for now just do the test
+			// then the game should stop if this function gets run? or inside of it
+			console.log(gameStatus);
+			console.log("State after AI move");
+			printGridState();
+		}
 	}
 
 	function printGridState() {
@@ -220,6 +220,7 @@ $(document).ready(function() {
 
 		if (!randomIndexes.length) {
 			// Do something when there are no more options to draw.
+			// $status.text("It's a tie!");
 		}
 		console.log("Random indexes left: ");
 		console.log(randomIndexes);
@@ -383,13 +384,13 @@ $(document).ready(function() {
 	function showWhoWon() {
 		console.log("Show who won function runs");
 		if (t3.whoWon == 'human') {
-			$status.text = "You won! Congratulations!";
-			$humanWon.display = block;
-			$humanWon.show().delay(3000).hide(); // redo it so it blinks?
+			$status.text("Victory is yours!");
+			// $humanWon.display = block;
+			// $humanWon.show().delay(3000).hide(); // redo it so it blinks?
 		} else if (t3.whoWon == 'comp'){
-			$status.text = "Computer won!";
-			$compWon.display = block;
-			$compWon.show().delay(3000).hide();
+			$status.text("Computer won!");
+			// $compWon.display = block;
+			// $compWon.show().delay(3000).hide();
 		}
 	}
 
