@@ -16,6 +16,8 @@ let state = [
 // TODO When nobody wins, make the game restart itself anyway
 // TODO Human move should also be displayed slowly
 // TODO Grid starts off grey? then when activates it changes color to the correct one?
+// TODO Make it so the comp can't go after player has won.
+// TODO
 
 
 // GAME LOOP
@@ -107,6 +109,14 @@ $(document).ready(function() {
 
 	}
 
+	function runHumanMove(cell) {
+
+	}
+
+	function checkForWin() {
+		return t3.whoWon !== 'nobody' ? true : false; // true if the game was won
+	}
+
 	function runGameLoop(clickedCell) {
 		// the main GAME LOOP
 		let $cell = $(clickedCell).find(t3.humanClass);
@@ -122,7 +132,7 @@ $(document).ready(function() {
 		if (t3.state[row][col] != 0) {
 			console.log("Check of the cell was successful. Apparently, this cell was not affected by AI");
 			t3.state[row][col] = 1;
-			$cell.show();
+			$cell.fadeIn();
 
 			// This should be changed.
 			var gameStatus = checkGameStatus();
@@ -131,7 +141,7 @@ $(document).ready(function() {
 			console.log("Type of Game Status - " + typeof gameStatus);
 
 			// for human turn - move to its own function
-			if (t3.whoWon !== 'nobody') {
+			if (checkForWin()) {
 				for (var i = 0; i < 3; i++) {
 					var testCellRow = t3.winningCells[i][0];
 					var testCellCol = t3.winningCells[i][1];
@@ -187,6 +197,17 @@ $(document).ready(function() {
 		}
 	}
 
+	function restartGame() {
+
+	}
+
+	function gameLoopExample() {
+		// who? comp or human?
+		// click or choose an available cell
+		// check if won
+		// if won - restart in some time
+	}
+
 	function printGridState() {
 		let stateString = "----------------\n| ";
 		for (var i = 0; i < t3.state.length; i++) {
@@ -220,14 +241,12 @@ $(document).ready(function() {
 
 		if (!randomIndexes.length) {
 			// Do something when there are no more options to draw.
-			// $status.text("It's a tie!");
 		}
 		console.log("Random indexes left: ");
 		console.log(randomIndexes);
 
 		let randomChoice = Math.floor(Math.random() * randomIndexes.length);
 		console.log("Randomly chosen cell in the t3 grid is: " + randomIndexes[randomChoice][0] + " and " + randomIndexes[randomChoice][1]);
-		// t3.state[randomIndexes[randomChoice][0]][randomIndexes[randomChoice[1]]]);
 
 		let randomCoords = [ randomIndexes[randomChoice][0], randomIndexes[randomChoice][1] ];
 		t3.state[ randomIndexes[randomChoice][0] ][ randomIndexes[randomChoice][1] ] = 0;
@@ -241,8 +260,6 @@ $(document).ready(function() {
 	function checkGameStatus() {
 		// check whether there is any kind of win or tie on the grid.
 		var doWeHaveAWin = false; // needed?
-
-		// Change this to something more elegant!
 
 		// HORZ CHECK
 		for (var i = 0; i < t3.state.length; i++) {
@@ -259,10 +276,10 @@ $(document).ready(function() {
 				}
 			} // end of internal FOR loop
 
-			console.log("#######");
-			console.log("HORZ CHECK:")
-			console.log("HUMAN: " + human);
-			console.log("COMP: " + comp);
+			// console.log("#######");
+			// console.log("HORZ CHECK:")
+			// console.log("HUMAN: " + human);
+			// console.log("COMP: " + comp);
 
 			if (human === 3 || comp === 3) { // improve this code.
 				t3.winningCells = [ [i, 0], [i, 1], [i, 2] ];
@@ -290,9 +307,9 @@ $(document).ready(function() {
 				}
 			} // end of internal FOR loop
 
-			console.log("VERT CHECK:")
-			console.log("HUMAN: " + human);
-			console.log("COMP: " + comp);
+			// console.log("VERT CHECK:")
+			// console.log("HUMAN: " + human);
+			// console.log("COMP: " + comp);
 
 			if (human === 3 || comp === 3) {
 				t3.winningCells = [[0, i], [1, i], [2, i]];
@@ -317,9 +334,9 @@ $(document).ready(function() {
 			if (t3.state[i][i] == 0) { comp++ }
 		}
 
-		console.log("TOP-LEFT BOTTOM-RIGHT CHECK:")
-		console.log("HUMAN: " + human);
-		console.log("COMP: " + comp);
+		// console.log("TOP-LEFT BOTTOM-RIGHT CHECK:")
+		// console.log("HUMAN: " + human);
+		// console.log("COMP: " + comp);
 
 		if (human === 3 || comp === 3) {
 			t3.winningCells = [ [0,0], [1,1], [2,2] ];
@@ -352,9 +369,9 @@ $(document).ready(function() {
 			comp++;
 		}
 
-		console.log("BOTTOM-LEFT TOP-RIGHT CHECK:")
-		console.log("HUMAN: " + human);
-		console.log("COMP: " + comp);
+		// console.log("BOTTOM-LEFT TOP-RIGHT CHECK:")
+		// console.log("HUMAN: " + human);
+		// console.log("COMP: " + comp);
 
 		if (human === 3 || comp === 3) {
 			t3.winningCells = [ [0,2], [1,1], [2,0] ];
