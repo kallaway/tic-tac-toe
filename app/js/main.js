@@ -1,14 +1,6 @@
 "use strict";
 
 // TODO: Maybe make it possible to generate a grid
-// Should I use canvas?
-
-// could be TEMP
-let state = [
-	[-1, -1, -1],
-	[-1, -1, -1],
-	[-1, -1, -1]
-];
 
 // TODO Resolve the issue with the highlighting of human moves
 // TODO Make sure nobody can make a move after the game was finished
@@ -17,8 +9,6 @@ let state = [
 // TODO Human move should also be displayed slowly
 // TODO Grid starts off grey? then when activates it changes color to the correct one?
 // TODO Make it so the comp can't go after player has won.
-// TODO
-
 
 // GAME LOOP
 // 1. Choose the sign: X or O
@@ -64,12 +54,10 @@ $(document).ready(function() {
 	$status = $('#game-status'),
 	randomIndexes = [];
 
-	console.log("ChoiceX:");
-	console.log($choiceX);
-	console.log("ChoiceO:");
-	console.log($choiceO);
-
 	function establishSymbols() {
+
+		// first maybe it should show the screen to choose symbols
+		$chooseSide.slideDown();
 
 		$choiceO.on('click', function() {
 			$(this).addClass('comp-move-color');
@@ -94,7 +82,6 @@ $(document).ready(function() {
 			$chooseSide.slideUp();
 			$grid.slideDown();
 		});
-		// what symbol do you want to use? X or 0?
 
 		console.log("Chosen symbol is: " + t3.humanSymbol);
 		// activateGrid();
@@ -150,32 +137,6 @@ $(document).ready(function() {
 					cell.addClass("highlight-test");
 					setTimeout(function() {
 						cell.removeClass("highlight-test");
-					}, 2000);
-				}
-
-			}
-
-			setTimeout(500); // Delay to make the game more enjoyable
-
-			console.log("State before AI move");
-			$status.text("Computer's turn.");
-			printGridState();
-			makeRandomMove(); // comp
-			gameStatus = checkGameStatus();
-
-			// for comp turn - move to its own function
-			if (t3.winningCells.length) {
-				t3.isFinished = true; // needed?
-
-				// Should this be a part of reset game function? no - it should be its own function
-				for (var i = 0; i < 3; i++) {
-					var testCellRow = t3.winningCells[i][0];
-					var testCellCol = t3.winningCells[i][1];
-
-					let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
-					cell.addClass("highlight-test");
-					setTimeout(function() {
-						cell.removeClass("highlight-test");
 						showWhoWon()
 					}, 2000);
 
@@ -183,13 +144,27 @@ $(document).ready(function() {
 						resetGame();
 						return;
 					}, 2000);
-
 				}
 
 			}
 
-			// have a function for highlighting the cell here ->
-			// for now just do the test
+			setTimeout(1000); // Delay to make the game more enjoyable
+
+			console.log("State before AI move");
+			$status.text("Computer's turn.");
+			printGridState();
+			if (t3.whoWon !== 'human') {
+				makeRandomMove(); // comp - maybe not just this should go into this if
+			}
+
+			gameStatus = checkGameStatus(); // get rid of this?
+
+			var isATie = isItATie();
+			if (!isATie) {
+				highlightWinnerCells();
+			}
+			// highlightWinnerCells();
+
 			// then the game should stop if this function gets run? or inside of it
 			console.log(gameStatus);
 			console.log("State after AI move");
@@ -197,8 +172,46 @@ $(document).ready(function() {
 		}
 	}
 
-	function restartGame() {
+	function isItATie() {
+		var cellsPlayed = t3.state.reduce(function(prev, curr) {
+			return prev + curr;
+		});
 
+		if (cellsPlayed === 9) {
+			$status.text("It's a tie");
+			resetGame();
+		}
+
+		return cellsPlayed === 9;
+	}
+
+	function highlightWinnerCells() {
+		if (t3.winningCells.length) {
+			t3.isFinished = true; // needed?
+
+			// Should this be a part of reset game function? no - it should be its own function
+			for (var i = 0; i < 3; i++) {
+				var testCellRow = t3.winningCells[i][0];
+				var testCellCol = t3.winningCells[i][1];
+
+				let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
+				cell.addClass("highlight-test");
+
+				setTimeout(function() {
+					cell.removeClass("highlight-test");
+					showWhoWon()
+				}, 2000);
+
+				setTimeout(function() {
+					resetGame();
+					return;
+				}, 2000);
+			}
+		}
+	}
+
+	function restartGame() {
+		establishSymbols(); // or maybe change it to just show
 	}
 
 	function gameLoopExample() {
@@ -239,22 +252,25 @@ $(document).ready(function() {
 			}
 		}
 
-		if (!randomIndexes.length) {
+		if (randomIndexes.length) {
 			// Do something when there are no more options to draw.
+			//isItATie();
+
+			console.log("Random indexes left: ");
+			console.log(randomIndexes);
+
+			let randomChoice = Math.floor(Math.random() * randomIndexes.length);
+			console.log("Randomly chosen cell in the t3 grid is: " + randomIndexes[randomChoice][0] + " and " + randomIndexes[randomChoice][1]);
+
+			let randomCoords = [ randomIndexes[randomChoice][0], randomIndexes[randomChoice][1] ];
+			t3.state[ randomIndexes[randomChoice][0] ][ randomIndexes[randomChoice][1] ] = 0;
+
+			showMoveAI(randomCoords);
+			setTimeout(function() {
+				$status.text("Your turn.");
+			}, 1500);
+
 		}
-		console.log("Random indexes left: ");
-		console.log(randomIndexes);
-
-		let randomChoice = Math.floor(Math.random() * randomIndexes.length);
-		console.log("Randomly chosen cell in the t3 grid is: " + randomIndexes[randomChoice][0] + " and " + randomIndexes[randomChoice][1]);
-
-		let randomCoords = [ randomIndexes[randomChoice][0], randomIndexes[randomChoice][1] ];
-		t3.state[ randomIndexes[randomChoice][0] ][ randomIndexes[randomChoice][1] ] = 0;
-
-		showMoveAI(randomCoords);
-		setTimeout(function() {
-			$status.text("Your turn.");
-		}, 1500);
 	}
 
 	function checkGameStatus() {
@@ -379,7 +395,6 @@ $(document).ready(function() {
 
 		t3.whoWon = human === 3 ? 'human' : t3.whoWon;
 		t3.whoWon = comp === 3 ? 'comp' : t3.whoWon;
-
 		return "nobody won yet";
 
 	} // end of checkGameStatus
@@ -396,6 +411,7 @@ $(document).ready(function() {
 		console.log(t3.state);
 		// show symbol to choose?
 		cleanGrid();
+		// establishSymbols();
 	}
 
 	function showWhoWon() {
