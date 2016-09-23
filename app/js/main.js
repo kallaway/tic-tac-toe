@@ -9,6 +9,7 @@
 // TODO Human move should also be displayed slowly
 // TODO Grid starts off grey? then when activates it changes color to the correct one?
 // TODO Make it so the comp can't go after player has won.
+// TODO disable the grid when computer is making a move
 
 // GAME LOOP
 // 1. Choose the sign: X or O
@@ -17,6 +18,7 @@
 // 3. Computer makes a move
 // When someone wins, display feedback
 // Restart the game at step 2.
+
 
 // Human Code Representation: 1
 // AI Code Representation: 0
@@ -148,13 +150,16 @@ $(document).ready(function() {
 
 			}
 
-			setTimeout(1000); // Delay to make the game more enjoyable
+			// setTimeout(1000); // Delay to make the game more enjoyable
 
 			console.log("State before AI move");
 			$status.text("Computer's turn.");
 			printGridState();
 			if (t3.whoWon !== 'human') {
-				makeRandomMove(); // comp - maybe not just this should go into this if
+				setTimeout(function() {
+					makeRandomMove(); // comp - maybe not just this should go into this if
+				}, 500);
+
 			}
 
 			gameStatus = checkGameStatus(); // get rid of this?
@@ -196,10 +201,10 @@ $(document).ready(function() {
 
 				let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
 				cell.addClass("highlight-test");
+				showWhoWon();
 
 				setTimeout(function() {
 					cell.removeClass("highlight-test");
-					showWhoWon()
 				}, 2000);
 
 				setTimeout(function() {
@@ -418,13 +423,15 @@ $(document).ready(function() {
 		console.log("Show who won function runs");
 		if (t3.whoWon == 'human') {
 			$status.text("Victory is yours!");
-			// $humanWon.display = block;
-			// $humanWon.show().delay(3000).hide(); // redo it so it blinks?
+
 		} else if (t3.whoWon == 'comp'){
 			$status.text("Computer won!");
-			// $compWon.display = block;
-			// $compWon.show().delay(3000).hide();
+
 		}
+
+		setTimeout(function() {
+			$status.text("Let's play again!");
+		}, 2000)
 	}
 
 	function cleanGrid() {
