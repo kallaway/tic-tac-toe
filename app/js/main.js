@@ -4,9 +4,7 @@
 
 // TODO Resolve the issue with the highlighting of human moves
 // TODO Make sure nobody can make a move after the game was finished
-// TODO Should the players be able to choose their symbol each time a game starts?
 // TODO When nobody wins, make the game restart itself anyway
-// TODO Human move should also be displayed slowly
 // TODO Grid starts off grey? then when activates it changes color to the correct one?
 // TODO Make it so the comp can't go after player has won.
 // TODO disable the grid when computer is making a move
@@ -54,6 +52,7 @@ $(document).ready(function() {
 	$compWon = $('#comp-won'),
 	$humanWon = $('#human-won'),
 	$status = $('#game-status'),
+	activeGridColor = '007CB9',
 	randomIndexes = [];
 
 	function establishSymbols() {
@@ -96,10 +95,32 @@ $(document).ready(function() {
 			runGameLoop(clickedCell);
 		});
 
+		// add: highlight grid
+		highlightGrid();
 	}
 
 	function runHumanMove(cell) {
 
+	}
+
+	function highlightGrid() {
+		console.log("highlight the grid function runs");
+
+		$cells.animate({
+			backgroundColor: "#330" // activeGridColor
+			// opacity: 0
+		}, 400);
+
+		// $cells.css({
+		//
+		// 	transition: 'background-color 1s ease-in-out',
+		// 	"background-color": activeGridColor
+		// });
+
+		// {
+		// 	// opacity: 0.2,
+		// 	color: "00FFFF",// activeGridColor
+		// }, 300);
 	}
 
 	function checkForWin() {
@@ -166,6 +187,7 @@ $(document).ready(function() {
 
 			var isATie = isItATie();
 			if (!isATie) {
+				console.log("If it is NOT a tie runs");
 				highlightWinnerCells();
 			}
 			// highlightWinnerCells();
@@ -297,11 +319,6 @@ $(document).ready(function() {
 				}
 			} // end of internal FOR loop
 
-			// console.log("#######");
-			// console.log("HORZ CHECK:")
-			// console.log("HUMAN: " + human);
-			// console.log("COMP: " + comp);
-
 			if (human === 3 || comp === 3) { // improve this code.
 				t3.winningCells = [ [i, 0], [i, 1], [i, 2] ];
 			}
@@ -328,10 +345,6 @@ $(document).ready(function() {
 				}
 			} // end of internal FOR loop
 
-			// console.log("VERT CHECK:")
-			// console.log("HUMAN: " + human);
-			// console.log("COMP: " + comp);
-
 			if (human === 3 || comp === 3) {
 				t3.winningCells = [[0, i], [1, i], [2, i]];
 			}
@@ -348,16 +361,10 @@ $(document).ready(function() {
 		var human = 0;
 		var comp = 0;
 		for (var i = 0; i < t3.state.length; i++) {
-			// var human = 0;
-			// var comp = 0;
 
 			if (t3.state[i][i] == 1) { human++ }
 			if (t3.state[i][i] == 0) { comp++ }
 		}
-
-		// console.log("TOP-LEFT BOTTOM-RIGHT CHECK:")
-		// console.log("HUMAN: " + human);
-		// console.log("COMP: " + comp);
 
 		if (human === 3 || comp === 3) {
 			t3.winningCells = [ [0,0], [1,1], [2,2] ];
@@ -389,10 +396,6 @@ $(document).ready(function() {
 		} else if (currCell == 0) {
 			comp++;
 		}
-
-		// console.log("BOTTOM-LEFT TOP-RIGHT CHECK:")
-		// console.log("HUMAN: " + human);
-		// console.log("COMP: " + comp);
 
 		if (human === 3 || comp === 3) {
 			t3.winningCells = [ [0,2], [1,1], [2,0] ];
