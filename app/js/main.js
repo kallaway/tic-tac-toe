@@ -68,8 +68,9 @@ $(document).ready(function() {
 			t3.aiClass = '.fa-times';
 			activateGrid();
 
-			$chooseSide.slideUp();
-			$grid.slideDown();
+			toggleChooseSideVisibility();
+			// $chooseSide.slideUp();
+			// $grid.slideDown();
 		});
 
 		$choiceX.on('click', function() {
@@ -80,12 +81,24 @@ $(document).ready(function() {
 			t3.aiClass = '.fa-circle-o';
 			activateGrid();
 
-			$chooseSide.slideUp();
-			$grid.slideDown();
+			toggleChooseSideVisibility();
+			// $chooseSide.slideUp();
+			//$grid.slideDown();
 		});
 
 		console.log("Chosen symbol is: " + t3.humanSymbol);
 		// activateGrid();
+	}
+
+	function toggleChooseSideVisibility() {
+		if ($chooseSide.is(':visible')) { // implement a different check
+			$chooseSide.slideUp();
+		} else {
+			$chooseSide.slideDown();
+		}
+
+		// grid should be visible all the time after this function runs once
+		$grid.slideDown();
 	}
 
 	function activateGrid() {
@@ -107,7 +120,7 @@ $(document).ready(function() {
 		console.log("highlight the grid function runs");
 
 		$cells.animate({
-			backgroundColor: "#330" // activeGridColor
+			backgroundColor: "#330000" // activeGridColor
 			// opacity: 0
 		}, 400);
 
@@ -148,7 +161,6 @@ $(document).ready(function() {
 			var gameStatus = checkGameStatus();
 			console.log("GAME STATUS: ");
 			console.log(gameStatus);
-			console.log("Type of Game Status - " + typeof gameStatus);
 
 			// for human turn - move to its own function
 			if (checkForWin()) {
@@ -190,7 +202,6 @@ $(document).ready(function() {
 				console.log("If it is NOT a tie runs");
 				highlightWinnerCells();
 			}
-			// highlightWinnerCells();
 
 			// then the game should stop if this function gets run? or inside of it
 			console.log(gameStatus);
@@ -415,8 +426,6 @@ $(document).ready(function() {
 				return -1;
 			});
 		});
-		console.log("State of the game after it's been cleaned");
-		console.log(t3.state);
 		// show symbol to choose?
 		cleanGrid();
 		// establishSymbols();
@@ -432,9 +441,16 @@ $(document).ready(function() {
 
 		}
 
+		// TODO this function should not run twice after human move and comp move.
+		// find a way to code this more elegantly
 		setTimeout(function() {
 			$status.text("Let's play again!");
 		}, 2000)
+
+		setTimeout(function() {
+			$status.text("Choose your side!");
+			// toggleChooseSideVisibility();
+		}, 3000);
 	}
 
 	function cleanGrid() {
@@ -457,10 +473,9 @@ $(document).ready(function() {
 
 	function init() {
 		establishSymbols();
-		// maybe this function should be run after.
 		// activateGrid();
 	}
 
-	init(); // is this needed at all?
+	init();
 
 });
