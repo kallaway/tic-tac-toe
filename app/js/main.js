@@ -8,6 +8,8 @@
 // TODO Grid starts off grey? then when activates it changes color to the correct one?
 // TODO Make it so the comp can't go after player has won.
 // TODO disable the grid when computer is making a move
+// TODO it didn't run a check when a computer has won before the person went.
+// TODO Fix the mechanism responsible for restarting a game after a tie.
 
 // GAME LOOP
 // 1. Choose the sign: X or O
@@ -121,19 +123,8 @@ $(document).ready(function() {
 
 		$cells.animate({
 			backgroundColor: "#330000" // activeGridColor
-			// opacity: 0
 		}, 400);
 
-		// $cells.css({
-		//
-		// 	transition: 'background-color 1s ease-in-out',
-		// 	"background-color": activeGridColor
-		// });
-
-		// {
-		// 	// opacity: 0.2,
-		// 	color: "00FFFF",// activeGridColor
-		// }, 300);
 	}
 
 	function checkForWin() {
@@ -211,11 +202,14 @@ $(document).ready(function() {
 	}
 
 	function isItATie() {
-		var cellsPlayed = t3.state.reduce(function(prev, curr) {
-			return prev + curr;
+		var cellsPlayed = t3.state.filter(function(cell) { // this is probably a problem
+			return cell !== 0;
 		});
 
-		if (cellsPlayed === 9) {
+		console.log("&&& CELLS PLAYED: ", cellsPlayed.length);
+
+
+		if (cellsPlayed.length === 9) {
 			$status.text("It's a tie");
 			resetGame();
 		}
