@@ -198,6 +198,35 @@ $(document).ready(function() {
 			console.log(gameStatus);
 			console.log("State after AI move");
 			printGridState();
+
+			// After computer move
+			// Take this function out - separate it.
+
+
+			if (checkForWin()) {
+				for (var i = 0; i < 3; i++) {
+					var testCellRow = t3.winningCells[i][0];
+					var testCellCol = t3.winningCells[i][1];
+
+					let cell = $('[data-row="' + (testCellRow+1) +  '"][data-col="' + (testCellCol+1) +  '"]');
+					cell.addClass("highlight-test");
+					setTimeout(function() {
+						cell.removeClass("highlight-test");
+						showWhoWon()
+					}, 2000);
+
+					setTimeout(function() {
+						resetGame();
+						return;
+					}, 2000);
+				}
+
+			}
+
+			if (!isATie) {
+				console.log("If it is NOT a tie runs");
+				highlightWinnerCells();
+			}
 		}
 	}
 
